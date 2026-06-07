@@ -577,23 +577,169 @@ body::before {
 ::-webkit-scrollbar-thumb { background: var(--lotso-fur); border-radius: 8px; }
 
 /* ============ 响应式 ============ */
-@media (max-width: 680px) {
-  .hero h1 { font-size: 1.7rem; }
-  .lotso-body { width: 90px; height: 105px; }
-  .lotso-head { width: 72px; height: 66px; top: -36px; }
-  .lotso-muzzle { width: 36px; height: 28px; bottom: 8px; }
-  .lotso-nose { width: 16px; height: 11px; top: 4px; }
-  .lotso-eyes { top: 22px; gap: 18px; }
-  .lotso-eyebrows { top: 15px; gap: 18px; }
-  .lotso-eyebrow { width: 12px; height: 5px; }
-  .lotso-eye { width: 8px; height: 9px; }
-  .lotso-ear { width: 22px; height: 22px; }
-  .lotso-ear::after { width: 12px; height: 12px; top:5px; left:5px; }
-  .lotso-strawberry { font-size: 1.4rem; top: -20px; }
-  .lotso-cane { font-size: 1.6rem; right: -12px; }
-  .days-grid { grid-template-columns: 1fr; }
-  .phase-tab { padding: 10px 16px; font-size: 0.88rem; }
-  .modal { padding: 22px 16px; }
+
+/* 平板 + 小屏笔记本 */
+@media (max-width: 900px) {
+  .container { padding: 16px 16px 50px; }
+}
+
+/* 手机横屏 + 大屏手机 */
+@media (max-width: 768px) {
+  /* 导航 */
+  .nav {
+    padding: 10px 16px;
+    gap: 8px;
+  }
+  .nav-brand { font-size: 1rem; }
+  .nav-lotso-head { width: 36px; height: 36px; }
+  .nav-lotso-head .nav-nose { width: 11px; height: 8px; top: 11px; }
+  .nav-lotso-head .nav-ear-l,
+  .nav-lotso-head .nav-ear-r { width: 11px; height: 11px; top: 3px; }
+  .nav-lotso-head .nav-ear-l::after,
+  .nav-lotso-head .nav-ear-r::after { width: 6px; height: 6px; top: 2px; left: 2px; }
+  .nav-lotso-head .nav-strawberry { font-size: 0.8rem; top: -10px; right: -3px; }
+  .nav-progress-wrap { font-size: 0.75rem; gap: 6px; }
+  .nav-progress-wrap .bar-bg { width: 80px; height: 6px; }
+
+  /* Hero */
+  .hero { padding: 28px 12px 16px; }
+  .hero h1 { font-size: 1.5rem; }
+  .hero .subtitle { font-size: 0.9rem; }
+  .hero .scent-tag { font-size: 0.75rem; padding: 3px 10px; }
+  .hero .badge-row { gap: 6px; margin-top: 12px; }
+  .badge { font-size: 0.74rem; padding: 5px 12px; border-radius: 16px; }
+
+  /* Lotso 缩小 */
+  .lotso-body { width: 86px; height: 100px; }
+  .lotso-head { width: 68px; height: 62px; top: -34px; }
+  .lotso-belly-area { width: 52px; height: 40px; bottom: 6px; }
+  .lotso-muzzle { width: 34px; height: 26px; bottom: 8px; }
+  .lotso-nose { width: 14px; height: 10px; top: 4px; }
+  .lotso-eyes { top: 20px; gap: 16px; }
+  .lotso-eye { width: 7px; height: 9px; }
+  .lotso-eyebrows { top: 14px; gap: 16px; }
+  .lotso-eyebrow { width: 12px; height: 4px; }
+  .lotso-ear { width: 20px; height: 20px; }
+  .lotso-ear::after { width: 11px; height: 11px; top: 4px; left: 4px; }
+  .lotso-ear.left { left: -8px; }
+  .lotso-ear.right { right: -8px; }
+  .lotso-strawberry { font-size: 1.3rem; top: -20px; }
+  .lotso-cane { font-size: 1.4rem; right: -10px; bottom: 5px; }
+
+  /* 阶段切换 - 横向滚动 */
+  .phase-tabs {
+    margin: 24px 0 14px;
+    gap: 8px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+    justify-content: flex-start;
+  }
+  .phase-tabs::-webkit-scrollbar { display: none; }
+  .phase-tab {
+    flex-shrink: 0;
+    padding: 11px 18px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+  .phase-tab .tab-cnt { font-size: 0.7rem; padding: 2px 8px; }
+  .phase-desc { font-size: 0.85rem; margin-bottom: 18px; }
+
+  /* 卡片 */
+  .days-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .day-card {
+    padding: 18px;
+    border-radius: 18px;
+    border-width: 2px;
+  }
+  .day-card:hover {
+    transform: none;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.03);
+  }
+  .day-card:active {
+    transform: scale(0.98);
+    box-shadow: 0 8px 28px var(--toy-shadow-lg);
+    border-color: var(--lotso-fur-light);
+  }
+  .day-card::before { height: 3px; }
+  .day-num { width: 42px; height: 42px; border-radius: 12px; font-size: 1.1rem; }
+  .day-type-tag { font-size: 0.7rem; padding: 4px 10px; }
+  .day-topic { font-size: 0.95rem; margin-bottom: 8px; }
+  .day-meta { font-size: 0.74rem; gap: 10px; }
+  .day-script-preview {
+    font-size: 0.76rem;
+    padding: 8px 10px;
+    margin-top: 10px;
+  }
+  .day-card .checkbox-area { margin-top: 12px; }
+  .day-card .checkbox-area label { font-size: 0.78rem; }
+  .day-card .checkbox-area input[type="checkbox"] {
+    width: 24px; height: 24px;
+  }
+
+  /* 模态框 - 全屏 */
+  .modal-overlay { padding: 0; align-items: stretch; }
+  .modal {
+    max-width: 100%;
+    width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    padding: 24px 18px 32px;
+    border: none;
+    border-top: 3px solid var(--lotso-fur);
+  }
+  .modal-close {
+    top: 12px; right: 12px;
+    width: 36px; height: 36px;
+    font-size: 1.1rem;
+  }
+  .modal h3 { font-size: 1.1rem; margin-bottom: 12px; }
+  .modal .section-label { font-size: 0.8rem; margin: 14px 0 6px; }
+  .modal .script-text {
+    font-size: 0.84rem;
+    padding: 14px;
+    line-height: 1.8;
+  }
+
+  /* 底部 */
+  .footer { padding: 36px 16px 28px; }
+  .footer .lotso-bye { font-size: 2.8rem; }
+
+  /* 回到顶部 */
+  .back-top {
+    bottom: 20px; right: 16px;
+    width: 44px; height: 44px;
+    font-size: 1.1rem;
+    border-radius: 50%;
+  }
+}
+
+/* 小屏手机 */
+@media (max-width: 400px) {
+  .nav { padding: 8px 12px; }
+  .nav-brand { font-size: 0.9rem; }
+  .nav-progress-wrap { font-size: 0.7rem; }
+  .nav-progress-wrap .bar-bg { width: 60px; }
+
+  .hero { padding: 20px 8px 12px; }
+  .hero h1 { font-size: 1.3rem; }
+  .hero .subtitle { font-size: 0.82rem; }
+  .container { padding: 8px 10px 40px; }
+
+  .day-card { padding: 14px; border-radius: 16px; }
+  .day-topic { font-size: 0.88rem; }
+  .day-script-preview { font-size: 0.73rem; padding: 7px 8px; }
+
+  .phase-tab { padding: 9px 14px; font-size: 0.8rem; }
+
+  .modal { padding: 18px 14px 28px; }
+  .modal h3 { font-size: 1rem; }
+  .modal .script-text { font-size: 0.8rem; padding: 12px; }
 }
 
 /* ============ 草莓装饰分隔线 ============ */
