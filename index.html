@@ -1755,24 +1755,20 @@ function renderCards() {
     setTimeout(dismiss, 4000);
   })();
 
-  // ============ AI 聊天浮窗 ============
-  (function() {
-    var BOT_ID = '7648684933334319130';
-
-    new CozeWebSDK.WebChatClient({
-      config: { bot_id: BOT_ID },
-      componentProps: {
-        title: '🧸 地瓜老大 · AI顾问',
-        icon: '🍓'
-      },
-      el: document.getElementById('cozeChat')
-    });
-  })();
 })();
 </script>
 <!-- Coze AI 聊天 Bot -->
-<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
 <div id="cozeChat"></div>
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
+<script>
+  new CozeWebSDK.WebChatClient({
+    config: { bot_id: '7648684933334319130' },
+    componentProps: {
+      title: '🧸 地瓜老大 · AI顾问',
+      icon: '🍓'
+    }
+  });
+</script>
 
 </body>
 </html>
