@@ -1573,11 +1573,14 @@ function renderCards() {
 
   // ============ 欢迎覆盖层 ============
   (function() {
-    // 已看过则跳过
-    if (localStorage.getItem('lotso_welcome_done')) return;
-
     var overlay = document.getElementById('welcomeOverlay');
     if (!overlay) return;
+
+    // 已看过则直接移除 DOM，避免卡住
+    if (localStorage.getItem('lotso_welcome_done')) {
+      overlay.parentNode.removeChild(overlay);
+      return;
+    }
 
     // 生成闪烁小元素
     var sparklesEl = document.getElementById('welcomeSparkles');
