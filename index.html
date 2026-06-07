@@ -717,6 +717,26 @@ body::before {
     font-size: 1.1rem;
     border-radius: 50%;
   }
+
+  /* 欢迎页迪士尼草莓熊缩小 */
+  .welcome-lotso-body { width: 110px; height: 126px; }
+  .welcome-belly { width: 64px; height: 50px; bottom: 8px; }
+  .welcome-lotso-head { width: 84px; height: 76px; top: -44px; }
+  .welcome-muzzle { width: 44px; height: 32px; bottom: 10px; }
+  .welcome-nose { width: 19px; height: 14px; top: 5px; }
+  .welcome-eyes { top: 24px; gap: 20px; }
+  .welcome-eye { width: 9px; height: 11px; }
+  .welcome-brows { top: 17px; gap: 20px; }
+  .welcome-brow { width: 14px; height: 5px; }
+  .welcome-ear { width: 25px; height: 25px; top: 7px; }
+  .welcome-ear::after { width: 14px; height: 14px; top: 5px; left: 5px; }
+  .welcome-ear.left { left: -12px; }
+  .welcome-ear.right { right: -12px; }
+  .welcome-leaf { font-size: 1.4rem; }
+  .welcome-strawberry-emoji { font-size: 1.3rem; top: -24px; }
+  .welcome-cane { font-size: 1.8rem; right: -16px; bottom: 8px; }
+  .welcome-text { font-size: 1.7rem; }
+  .welcome-hint { font-size: 0.8rem; }
 }
 
 /* 小屏手机 */
@@ -736,6 +756,26 @@ body::before {
   .day-script-preview { font-size: 0.73rem; padding: 7px 8px; }
 
   .phase-tab { padding: 9px 14px; font-size: 0.8rem; }
+
+  /* 欢迎页草莓熊 */
+  .welcome-lotso-body { width: 96px; height: 110px; }
+  .welcome-belly { width: 56px; height: 44px; bottom: 7px; }
+  .welcome-lotso-head { width: 72px; height: 66px; top: -38px; }
+  .welcome-muzzle { width: 38px; height: 28px; bottom: 9px; }
+  .welcome-nose { width: 16px; height: 12px; top: 4px; }
+  .welcome-eyes { top: 21px; gap: 17px; }
+  .welcome-eye { width: 8px; height: 10px; }
+  .welcome-brows { top: 14px; gap: 17px; }
+  .welcome-brow { width: 12px; height: 4px; }
+  .welcome-ear { width: 22px; height: 22px; top: 5px; }
+  .welcome-ear::after { width: 12px; height: 12px; top: 4px; left: 4px; }
+  .welcome-ear.left { left: -10px; }
+  .welcome-ear.right { right: -10px; }
+  .welcome-leaf { font-size: 1.2rem; }
+  .welcome-strawberry-emoji { font-size: 1.1rem; top: -20px; }
+  .welcome-cane { font-size: 1.5rem; right: -12px; bottom: 6px; }
+  .welcome-text { font-size: 1.4rem; }
+  .welcome-hint { font-size: 0.74rem; }
 
   .modal { padding: 18px 14px 28px; }
   .modal h3 { font-size: 1rem; }
@@ -773,15 +813,167 @@ body::before {
   40% { transform: translateY(-22px) scale(1.08); }
   60% { transform: translateY(-6px) scale(0.96); }
 }
-.welcome-strawberry {
+
+/* 迪士尼草莓熊 CSS 形象 */
+.welcome-lotso-body {
+  width: 140px; height: 160px;
+  background: linear-gradient(175deg, #E880A8 0%, #D4688C 35%, #C06080 65%, #A04868 100%);
+  border-radius: 48% 48% 42% 42%;
+  position: relative;
+  box-shadow: 0 12px 40px rgba(160,72,104,0.35), inset 0 -24px 36px rgba(160,72,104,0.18);
+}
+/* 做旧毛绒纹理 */
+.welcome-lotso-body::before {
+  content: '';
+  position: absolute; width:100%; height:100%;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse at 32% 48%, rgba(255,255,255,0.12) 0%, transparent 50%),
+    radial-gradient(circle at 65% 32%, rgba(255,255,255,0.08) 0%, transparent 30%),
+    radial-gradient(circle at 40% 70%, rgba(180,140,120,0.06) 0%, transparent 40%);
+  pointer-events: none;
+}
+/* 迪士尼圆肚子 - 奶油白 */
+.welcome-belly {
+  position: absolute;
+  bottom: 10px; left: 50%; transform: translateX(-50%);
+  width: 82px; height: 64px;
+  background: linear-gradient(180deg, #F5E6D0 0%, #EDD9B8 50%, #E0CAA0 100%);
+  border-radius: 50%;
+  box-shadow: inset 0 2px 8px rgba(180,150,120,0.25), 0 0 0 1px rgba(180,150,120,0.12);
+}
+/* 肚子上做旧斑点 */
+.welcome-belly::after {
+  content: '';
+  position: absolute;
+  width: 20px; height: 14px;
+  background: rgba(180,150,120,0.22);
+  border-radius: 50%;
+  bottom: 14px; right: 16px;
+}
+/* 头 */
+.welcome-lotso-head {
+  width: 108px; height: 98px;
+  background: linear-gradient(180deg, #E880A8 0%, #D06888 45%, #C05878 100%);
+  border-radius: 50%;
+  position: absolute;
+  top: -56px; left: 50%; transform: translateX(-50%);
+  box-shadow: 0 8px 24px rgba(160,72,104,0.25);
+}
+/* 奶油色嘴巴区域 */
+.welcome-muzzle {
+  position: absolute;
+  width: 56px; height: 42px;
+  background: linear-gradient(180deg, #F5E6D0 0%, #EDD9B8 100%);
+  border-radius: 50%;
+  bottom: 14px; left: 50%; transform: translateX(-50%);
+}
+/* 草莓鼻子 */
+.welcome-nose {
+  position: absolute;
+  width: 24px; height: 17px;
+  background: radial-gradient(ellipse at 50% 40%, #9B4F8C 0%, #7B3F7C 60%, #5E2D6E 100%);
+  border-radius: 50% 50% 45% 45%;
+  top: 7px; left: 50%; transform: translateX(-50%);
+  box-shadow: 0 3px 6px rgba(94,45,110,0.4);
+}
+.welcome-nose::after {
+  content: '';
+  position: absolute;
+  width: 8px; height: 5px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 50%;
+  top: 3px; left: 5px;
+}
+/* 眼睛 */
+.welcome-eyes {
+  position: absolute;
+  top: 30px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 26px;
+}
+.welcome-eye {
+  width: 12px; height: 14px;
+  background: #1a1a1a;
+  border-radius: 50%;
+}
+/* 迪士尼方形眉毛 */
+.welcome-brows {
+  position: absolute;
+  top: 21px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 26px;
+}
+.welcome-brow {
+  width: 18px; height: 7px;
+  background: #8B3A5A;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+/* 耳朵 */
+.welcome-ears { position: absolute; top: -2px; width: 100%; }
+.welcome-ear {
+  position: absolute;
+  width: 32px; height: 32px;
+  background: linear-gradient(180deg, #E880A8, #D06888);
+  border-radius: 50%;
+  top: 10px;
+  box-shadow: 0 3px 8px rgba(160,72,104,0.2);
+}
+.welcome-ear::after {
+  content: '';
+  position: absolute;
+  width: 18px; height: 18px;
+  background: #F5E6D0;
+  border-radius: 50%;
+  top: 7px; left: 7px;
+}
+.welcome-ear.left { left: -16px; }
+.welcome-ear.right { right: -16px; }
+/* 歪嘴笑 */
+.welcome-mouth {
+  position: absolute;
+  bottom: 16px; left: 50%; transform: translateX(-50%) rotate(-3deg);
+  width: 18px; height: 8px;
+  border-bottom: 3px solid #6B3848;
+  border-radius: 0 0 50% 50%;
+}
+/* 绿色草莓叶子 */
+.welcome-leaves {
   position: absolute;
   top: -18px; left: 50%; transform: translateX(-50%);
-  font-size: 2.5rem;
-  animation: welcomeStrawSpin 0.8s cubic-bezier(0.34,1.56,0.64,1) infinite;
+  display: flex; gap: 2px;
 }
-@keyframes welcomeStrawSpin {
-  0%,100% { transform: translateX(-50%) rotate(0) scale(1); }
-  50% { transform: translateX(-50%) rotate(12deg) scale(1.25); }
+.welcome-leaf {
+  font-size: 1.9rem;
+  animation: leafWiggle 2s ease-in-out infinite;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.15));
+}
+.welcome-leaf:nth-child(1) { animation-delay: 0s; }
+.welcome-leaf:nth-child(2) { animation-delay: 0.3s; }
+.welcome-leaf:nth-child(3) { animation-delay: 0.6s; }
+@keyframes leafWiggle {
+  0%,100% { transform: rotate(0) translateY(0); }
+  30% { transform: rotate(8deg) translateY(-3px); }
+  60% { transform: rotate(-5deg) translateY(1px); }
+}
+/* 草莓装饰 */
+.welcome-strawberry-emoji {
+  position: absolute;
+  top: -32px; left: 52%; transform: translateX(-50%);
+  font-size: 1.6rem;
+  animation: welcomeStrawFloat 2.5s ease-in-out infinite;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+}
+@keyframes welcomeStrawFloat {
+  0%,100% { transform: translateX(-50%) translateY(0) rotate(0); }
+  50% { transform: translateX(-50%) translateY(-8px) rotate(6deg); }
+}
+/* 小拐杖 */
+.welcome-cane {
+  position: absolute;
+  right: -22px; bottom: 12px;
+  font-size: 2.4rem;
+  transform: rotate(18deg);
+  filter: drop-shadow(0 3px 4px rgba(0,0,0,0.2));
 }
 .welcome-text {
   font-size: 2.2rem; font-weight: 900;
@@ -904,8 +1096,35 @@ body::before {
 <div class="welcome-overlay" id="welcomeOverlay">
   <div class="welcome-sparkles" id="welcomeSparkles"></div>
   <div class="welcome-lotso">
-    <span class="welcome-strawberry">🍓</span>
-    <span style="font-size:5rem;">🧸</span>
+    <!-- 迪士尼草莓熊 CSS 形象 -->
+    <div class="welcome-lotso-body">
+      <div class="welcome-belly"></div>
+      <div class="welcome-lotso-head">
+        <div class="welcome-ears">
+          <div class="welcome-ear left"></div>
+          <div class="welcome-ear right"></div>
+        </div>
+        <div class="welcome-leaves">
+          <span class="welcome-leaf">🌿</span>
+          <span class="welcome-leaf">🌿</span>
+          <span class="welcome-leaf">🌿</span>
+        </div>
+        <div class="welcome-brows">
+          <div class="welcome-brow"></div>
+          <div class="welcome-brow"></div>
+        </div>
+        <div class="welcome-eyes">
+          <div class="welcome-eye"></div>
+          <div class="welcome-eye"></div>
+        </div>
+        <div class="welcome-muzzle">
+          <div class="welcome-nose"></div>
+        </div>
+        <div class="welcome-mouth"></div>
+      </div>
+      <div class="welcome-strawberry-emoji">🍓</div>
+      <div class="welcome-cane">🦯</div>
+    </div>
   </div>
   <div class="welcome-text">地瓜老大来了</div>
   <div class="welcome-hint">🍓 点击任意位置进入</div>
