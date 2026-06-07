@@ -1757,15 +1757,18 @@ function renderCards() {
 
 })();
 </script>
-<!-- Coze AI 聊天 Bot -->
-<div id="cozeChat"></div>
+<!-- Coze AI 聊天 Bot - iframe模式 -->
 <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
 <script>
   new CozeWebSDK.WebChatClient({
-    config: { bot_id: '7648684933334319130' },
-    componentProps: {
-      title: '🧸 地瓜老大 · AI顾问',
-      icon: '🍓'
+    config: {
+      bot_id: '7648684933334319130',
+      isIframe: true
+    },
+    componentProps: { title: '🧸 地瓜老大 · AI顾问' },
+    ui: {
+      asstBtn: { isNeed: true },
+      base: { icon: '🍓', lang: 'zh-CN' }
     }
   });
 </script>
