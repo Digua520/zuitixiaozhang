@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(PYTHONUTF8=1 python *)",
+      "Bash(start *)",
+      "WebSearch"
+    ]
+  }
+}
