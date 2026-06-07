@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍓 嘴替小张 · 30天行动计划</title>
+<style>
+/* ==============================================
+   Lotso 草莓熊 · 玩具总动员3 真实还原
+   身体：柔洋红 + 奶油白肚子（做旧感）
+   鼻子：天鹅绒紫 Plum
+   特征：草莓香、木头拐杖、方眉毛
+   整体：1980s复古毛绒玩具质感
+   ============================================== */
+:root {
+  --lotso-fur: #C06080;
+  --lotso-fur-deep: #A04868;
+  --lotso-fur-light: #D4789B;
+  --lotso-belly: #F0E0C8;
+  --lotso-belly-aged: #E8D5B8;
+  --lotso-nose: #7B3F8C;
+  --lotso-nose-dark: #5E2D6E;
+  --lotso-inner-ear: #F0E0C8;
+  --strawberry: #DC3545;
+  --strawberry-leaf: #4CAF50;
+  --cane-wood: #A08060;
+  --cane-wood-dark: #7A5C3E;
+  --vintage-cream: #FFF8EC;
+  --toy-shadow: rgba(160,72,104,0.15);
+  --toy-shadow-lg: rgba(160,72,104,0.25);
+  --text: #3E1A2E;
+  --text-light: #6D4C5E;
+}
+
+/* ============ 全局 ============ */
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', -apple-system, sans-serif;
+  background: linear-gradient(175deg, #FFF8EC 0%, #FDF0F4 30%, #F8E0EA 60%, #FFF8EC 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ============ 复古玩具纹理叠加层 ============ */
+body::before {
+  content: '';
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  pointer-events: none; z-index: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(192,96,128,0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(123,63,140,0.03) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(240,224,200,0.15) 0%, transparent 70%);
+}
+
+/* ============ 飘落粒子：草莓+花+爱心 ============ */
+.particles {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  pointer-events: none; z-index: 0;
+}
+.particle {
+  position: absolute;
+  animation: floatUp 10s linear infinite;
+}
+@keyframes floatUp {
+  0% { transform: translateY(105vh) rotate(0deg) scale(0); opacity: 0; }
+  6% { opacity: 0.6; }
+  85% { opacity: 0.6; }
+  100% { transform: translateY(-8vh) rotate(360deg) scale(0.85); opacity: 0; }
+}
+
+/* ============ 导航 ============ */
+.nav {
+  position: sticky; top:0; z-index:100;
+  background: linear-gradient(135deg, rgba(192,96,128,0.95), rgba(168,72,104,0.95));
+  backdrop-filter: blur(20px);
+  padding: 14px 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+  box-shadow: 0 4px 28px rgba(160,72,104,0.3);
+}
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  color: var(--vintage-cream);
+  font-weight: 800; font-size: 1.2rem;
+}
+.nav-lotso-head {
+  width: 44px; height: 44px;
+  background: var(--lotso-fur);
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-lotso-head .nav-nose {
+  width: 14px; height: 10px;
+  background: var(--lotso-nose);
+  border-radius: 50%;
+  position: absolute;
+  top: 14px; left: 50%; transform: translateX(-50%);
+}
+.nav-lotso-head .nav-ear-l {
+  width: 14px; height: 14px;
+  background: var(--lotso-fur);
+  border-radius: 50%;
+  position: absolute;
+  top: 4px; left: 2px;
+}
+.nav-lotso-head .nav-ear-r {
+  width: 14px; height: 14px;
+  background: var(--lotso-fur);
+  border-radius: 50%;
+  position: absolute;
+  top: 4px; right: 2px;
+}
+.nav-lotso-head .nav-ear-l::after, .nav-lotso-head .nav-ear-r::after {
+  content: '';
+  position: absolute;
+  width: 8px; height: 8px;
+  background: var(--lotso-inner-ear);
+  border-radius: 50%;
+  top: 3px; left: 3px;
+}
+.nav-lotso-head .nav-strawberry {
+  position: absolute;
+  top: -14px; right: -4px;
+  font-size: 1rem;
+}
+.nav-progress-wrap {
+  display: flex; align-items: center; gap: 10px;
+  color: var(--vintage-cream); font-size: 0.85rem;
+}
+.nav-progress-wrap .bar-bg {
+  width: 130px; height: 8px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 10px; overflow: hidden;
+}
+.nav-progress-wrap .bar-fg {
+  height: 100%;
+  background: linear-gradient(90deg, #FDD835, #FFC107);
+  border-radius: 10px;
+  transition: width 0.5s ease;
+  box-shadow: 0 0 8px rgba(253,216,53,0.4);
+}
+
+/* ============ 容器 ============ */
+.container {
+  max-width: 1080px; margin:0 auto;
+  padding: 20px 24px 60px;
+  position: relative; z-index:1;
+}
+
+/* ============ Hero：Lotso 形象 ============ */
+.hero {
+  text-align: center; padding: 44px 20px 24px;
+}
+/* Lotso 完整熊形象 - CSS绘制 */
+.lotso-figure {
+  display: inline-block; position: relative;
+  animation: lotso-idle 3s ease-in-out infinite;
+}
+@keyframes lotso-idle {
+  0%,100% { transform: translateY(0) rotate(0); }
+  30% { transform: translateY(-10px) rotate(-1deg); }
+  60% { transform: translateY(2px) rotate(0.5deg); }
+  85% { transform: translateY(-5px) rotate(-0.5deg); }
+}
+/* 身体 */
+.lotso-body {
+  width: 120px; height: 140px;
+  background: linear-gradient(180deg, var(--lotso-fur-light) 0%, var(--lotso-fur) 45%, var(--lotso-fur-deep) 100%);
+  border-radius: 50% 50% 44% 44%;
+  position: relative;
+  box-shadow:
+    0 10px 36px var(--toy-shadow-lg),
+    inset 0 -20px 30px rgba(160,72,104,0.2);
+}
+/* 做旧感纹理 */
+.lotso-body::before {
+  content: '';
+  position: absolute;
+  width: 100%; height: 100%;
+  border-radius: inherit;
+  background:
+    radial-gradient(ellipse at 35% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+    radial-gradient(circle at 60% 35%, rgba(255,255,255,0.08) 0%, transparent 30%);
+}
+/* 奶油白肚子 - 做旧脏脏感 */
+.lotso-belly-area {
+  position: absolute;
+  bottom: 8px; left: 50%; transform: translateX(-50%);
+  width: 70px; height: 55px;
+  background: linear-gradient(180deg, var(--lotso-belly) 0%, var(--lotso-belly-aged) 100%);
+  border-radius: 50%;
+  box-shadow:
+    inset 0 2px 6px rgba(180,150,120,0.3),
+    0 0 0 1px rgba(180,150,120,0.15);
+}
+/* 肚子上做旧斑点 */
+.lotso-belly-area::after {
+  content: '';
+  position: absolute;
+  width: 18px; height: 12px;
+  background: rgba(180,150,120,0.25);
+  border-radius: 50%;
+  bottom: 10px; right: 14px;
+}
+/* 头 */
+.lotso-head {
+  width: 94px; height: 88px;
+  background: linear-gradient(180deg, var(--lotso-fur-light) 0%, var(--lotso-fur) 60%);
+  border-radius: 50%;
+  position: absolute;
+  top: -48px; left: 50%; transform: translateX(-50%);
+  box-shadow: 0 6px 20px rgba(160,72,104,0.2);
+}
+/* 奶油白嘴巴区域 */
+.lotso-muzzle {
+  position: absolute;
+  width: 48px; height: 36px;
+  background: linear-gradient(180deg, var(--lotso-belly) 0%, var(--lotso-belly-aged) 100%);
+  border-radius: 50%;
+  bottom: 12px; left: 50%; transform: translateX(-50%);
+}
+/* 紫色天鹅绒鼻子 */
+.lotso-nose {
+  position: absolute;
+  width: 20px; height: 14px;
+  background: radial-gradient(ellipse, var(--lotso-nose) 0%, var(--lotso-nose-dark) 100%);
+  border-radius: 50%;
+  top: 6px; left: 50%; transform: translateX(-50%);
+  box-shadow: 0 2px 4px rgba(94,45,110,0.4);
+}
+/* 鼻子高光 */
+.lotso-nose::after {
+  content: '';
+  position: absolute;
+  width: 6px; height: 4px;
+  background: rgba(255,255,255,0.35);
+  border-radius: 50%;
+  top: 2px; left: 4px;
+}
+/* 眼睛 */
+.lotso-eyes {
+  position: absolute;
+  top: 28px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 24px;
+}
+.lotso-eye {
+  width: 10px; height: 12px;
+  background: #1a1a1a;
+  border-radius: 50%;
+  position: relative;
+}
+/* 方眉毛 */
+.lotso-eyebrows {
+  position: absolute;
+  top: 20px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 24px;
+}
+.lotso-eyebrow {
+  width: 16px; height: 6px;
+  background: var(--lotso-fur-deep);
+  border-radius: 2px;
+}
+/* 耳朵 */
+.lotso-ears {
+  position: absolute;
+  top: -4px;
+  width: 100%;
+}
+.lotso-ear {
+  position: absolute;
+  width: 28px; height: 28px;
+  background: var(--lotso-fur);
+  border-radius: 50%;
+  top: 8px;
+  box-shadow: 0 2px 6px rgba(160,72,104,0.15);
+}
+.lotso-ear::after {
+  content: '';
+  position: absolute;
+  width: 16px; height: 16px;
+  background: var(--lotso-inner-ear);
+  border-radius: 50%;
+  top: 6px; left: 6px;
+}
+.lotso-ear.left { left: -12px; }
+.lotso-ear.right { right: -12px; }
+/* 头顶草莓 */
+.lotso-strawberry {
+  position: absolute;
+  top: -28px; left: 45%; transform: translateX(-50%);
+  font-size: 2rem;
+  animation: strawberry-bob 3.5s ease-in-out infinite;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+}
+@keyframes strawberry-bob {
+  0%,100% { transform: translateX(-50%) rotate(0); }
+  20% { transform: translateX(-50%) rotate(6deg) translateY(-2px); }
+  60% { transform: translateX(-50%) rotate(-6deg) translateY(1px); }
+}
+/* 小拐杖 */
+.lotso-cane {
+  position: absolute;
+  right: -18px; bottom: 8px;
+  font-size: 2.2rem;
+  transform: rotate(15deg);
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,0.2));
+}
+
+.hero h1 {
+  font-size: 2.5rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--lotso-fur-deep), var(--lotso-fur), var(--lotso-nose));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 20px 0 4px;
+  letter-spacing: -0.5px;
+}
+.hero .subtitle {
+  font-size: 1.05rem; color: var(--text-light); margin-bottom: 4px;
+}
+.hero .scent-tag {
+  display: inline-block;
+  font-size: 0.85rem; color: var(--lotso-fur-deep);
+  background: var(--lotso-belly);
+  padding: 4px 14px; border-radius: 14px;
+  margin-top: 8px;
+  font-weight: 600;
+}
+.hero .badge-row {
+  display: flex; justify-content: center; gap: 10px;
+  flex-wrap: wrap; margin-top: 16px;
+}
+.badge {
+  padding: 7px 18px; border-radius: 20px;
+  font-size: 0.84rem; font-weight: 700;
+}
+.badge-fur {
+  background: var(--lotso-fur);
+  color: var(--vintage-cream);
+  box-shadow: 0 3px 12px var(--toy-shadow);
+}
+.badge-belly {
+  background: var(--lotso-belly);
+  color: var(--lotso-fur-deep);
+  border: 2px solid var(--lotso-fur-light);
+}
+.badge-nose {
+  background: var(--lotso-nose);
+  color: var(--vintage-cream);
+  box-shadow: 0 3px 12px rgba(123,63,140,0.3);
+}
+
+/* ============ 阶段切换 ============ */
+.phase-tabs {
+  display: flex; justify-content: center; gap: 10px;
+  margin: 36px 0 20px; flex-wrap: wrap;
+}
+.phase-tab {
+  padding: 13px 26px; border-radius: 30px;
+  border: 2.5px solid var(--lotso-fur-light);
+  background: white;
+  color: var(--lotso-fur-deep);
+  font-weight: 800; font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.phase-tab:hover {
+  border-color: var(--lotso-fur);
+  box-shadow: 0 6px 22px var(--toy-shadow);
+  transform: translateY(-3px);
+}
+.phase-tab.active {
+  background: linear-gradient(135deg, var(--lotso-fur-deep), var(--lotso-fur));
+  color: var(--vintage-cream);
+  border-color: transparent;
+  box-shadow: 0 8px 26px var(--toy-shadow-lg);
+}
+.phase-tab .tab-cnt {
+  background: rgba(255,255,255,0.22);
+  padding: 2px 10px; border-radius: 12px;
+  font-size: 0.78rem; font-weight: 600;
+}
+.phase-desc {
+  text-align: center; margin-bottom: 26px;
+  color: var(--text-light); font-size: 0.95rem;
+}
+
+/* ============ 卡片 ============ */
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 22px;
+}
+
+.day-card {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+  border-radius: 22px;
+  padding: 24px;
+  border: 2.5px solid #F8E0EA;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.03);
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+  position: relative; overflow: hidden;
+  cursor: pointer;
+}
+/* 顶部装饰线 = Lotso三色 */
+.day-card::before {
+  content: '';
+  position: absolute; top:0; left:0; right:0; height: 4px;
+  background: linear-gradient(90deg, var(--lotso-fur-deep), var(--lotso-fur), var(--lotso-nose), var(--strawberry));
+  border-radius: 22px 22px 0 0;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.day-card:hover::before { transform: scaleX(1); }
+.day-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 44px var(--toy-shadow-lg);
+  border-color: var(--lotso-fur-light);
+}
+/* 完成状态 */
+.day-card.done {
+  background: linear-gradient(160deg, #FFF5F0 0%, #FDF0F4 40%, var(--lotso-belly) 100%);
+  border-color: var(--lotso-fur-light);
+}
+.day-card.done::before { transform: scaleX(1); }
+.day-card.done .day-num {
+  background: var(--lotso-fur);
+  color: var(--vintage-cream);
+}
+.day-card.done .day-num::after {
+  content: '🍓';
+  position: absolute;
+  top: -10px; right: -8px;
+  font-size: 0.65rem;
+}
+
+.day-card-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.day-num {
+  width: 50px; height: 50px;
+  border-radius: 16px;
+  background: #F8E0EA;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 1.25rem;
+  color: var(--lotso-fur-deep);
+  transition: all 0.3s ease;
+  position: relative;
+}
+.day-type-tag {
+  padding: 5px 14px; border-radius: 14px;
+  font-size: 0.74rem; font-weight: 700;
+  background: #FFF3E0; color: #A04030;
+}
+.day-topic {
+  font-size: 1.05rem; font-weight: 800;
+  margin-bottom: 10px; color: var(--text);
+  line-height: 1.45;
+}
+.day-meta {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  font-size: 0.8rem; color: var(--text-light);
+}
+.day-script-preview {
+  margin-top: 12px;
+  font-size: 0.82rem; color: var(--text-light);
+  line-height: 1.7;
+  background: #FFF5F0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  border-left: 3px solid var(--lotso-fur-light);
+}
+.day-card .checkbox-area {
+  margin-top: 14px; display: flex; align-items: center; gap: 8px;
+}
+.day-card .checkbox-area label {
+  font-size: 0.82rem; color: var(--text-light);
+  cursor: pointer; user-select: none;
+}
+.day-card .checkbox-area input[type="checkbox"] {
+  width: 22px; height: 22px;
+  accent-color: var(--lotso-fur);
+  cursor: pointer;
+}
+
+/* ============ 模态框 ============ */
+.modal-overlay {
+  display: none;
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  background: rgba(62,26,46,0.5);
+  z-index:200; justify-content: center; align-items: center;
+  padding: 20px;
+}
+.modal-overlay.show { display: flex; }
+.modal {
+  background: white;
+  border-radius: 26px;
+  max-width: 640px; width:100%; max-height: 85vh;
+  overflow-y: auto;
+  padding: 34px 30px;
+  position: relative;
+  box-shadow: 0 28px 70px rgba(62,26,46,0.3);
+  border: 3px solid #F8E0EA;
+}
+.modal-close {
+  position: absolute; top:14px; right:18px;
+  width: 38px; height: 38px;
+  border-radius: 50%; border: none;
+  background: #F8E0EA;
+  color: var(--lotso-fur-deep);
+  font-size: 1.2rem; cursor: pointer;
+  transition: all 0.2s; font-weight: 700;
+}
+.modal-close:hover { background: var(--lotso-fur); color: white; }
+.modal h3 { font-size: 1.3rem; margin-bottom: 16px; color: var(--text); line-height: 1.4; }
+.modal .section-label {
+  font-weight: 800; color: var(--lotso-fur-deep);
+  margin: 18px 0 8px; font-size: 0.85rem;
+  letter-spacing: 1px;
+}
+.modal .script-text {
+  background: linear-gradient(135deg, #FFF5F0, var(--lotso-belly));
+  border-radius: 16px; padding: 18px;
+  font-size: 0.9rem; line-height: 1.9;
+  white-space: pre-wrap;
+  color: var(--text);
+  border-left: 5px solid var(--lotso-fur);
+}
+
+/* ============ 底部 ============ */
+.footer {
+  text-align: center; padding: 50px 20px 36px;
+  color: var(--text-light); font-size: 0.84rem;
+}
+.footer .lotso-bye {
+  font-size: 3.5rem; margin-bottom: 10px;
+  animation: lotso-idle 3s ease-in-out infinite;
+  display: inline-block;
+  position: relative;
+}
+.footer .lotso-bye .mini-strawberry {
+  position: absolute; top: -8px; right: -12px;
+  font-size: 1.6rem;
+}
+.footer .scent-text {
+  font-size: 0.82rem; color: var(--lotso-fur);
+  font-style: italic; margin-top: 4px;
+}
+
+/* ============ 回到顶部 ============ */
+.back-top {
+  position: fixed; bottom: 28px; right: 28px;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--lotso-fur), var(--lotso-fur-deep));
+  color: var(--vintage-cream);
+  border: 3px solid var(--lotso-belly);
+  font-size: 1.3rem; cursor: pointer;
+  box-shadow: 0 6px 24px var(--toy-shadow-lg);
+  transition: all 0.3s; z-index:50;
+  display: none; align-items: center; justify-content: center;
+}
+.back-top.show { display: flex; }
+.back-top:hover { transform: scale(1.12); }
+
+/* ============ 滚动条 ============ */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #F8E0EA; border-radius: 8px; }
+::-webkit-scrollbar-thumb { background: var(--lotso-fur); border-radius: 8px; }
+
+/* ============ 响应式 ============ */
+@media (max-width: 680px) {
+  .hero h1 { font-size: 1.7rem; }
+  .lotso-body { width: 90px; height: 105px; }
+  .lotso-head { width: 72px; height: 66px; top: -36px; }
+  .lotso-muzzle { width: 36px; height: 28px; bottom: 8px; }
+  .lotso-nose { width: 16px; height: 11px; top: 4px; }
+  .lotso-eyes { top: 22px; gap: 18px; }
+  .lotso-eyebrows { top: 15px; gap: 18px; }
+  .lotso-eyebrow { width: 12px; height: 5px; }
+  .lotso-eye { width: 8px; height: 9px; }
+  .lotso-ear { width: 22px; height: 22px; }
+  .lotso-ear::after { width: 12px; height: 12px; top:5px; left:5px; }
+  .lotso-strawberry { font-size: 1.4rem; top: -20px; }
+  .lotso-cane { font-size: 1.6rem; right: -12px; }
+  .days-grid { grid-template-columns: 1fr; }
+  .phase-tab { padding: 10px 16px; font-size: 0.88rem; }
+  .modal { padding: 22px 16px; }
+}
+
+/* ============ 草莓装饰分隔线 ============ */
+.strawberry-divider {
+  text-align: center; font-size: 1.2rem;
+  letter-spacing: 8px; margin: 8px 0;
+  opacity: 0.5;
+}
+</style>
+</head>
+<body>
+
+<!-- 飘落粒子 -->
+<div class="particles" id="particles"></div>
+
+<!-- 导航 -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-lotso-head">
+      <div class="nav-ear-l"></div>
+      <div class="nav-ear-r"></div>
+      <div class="nav-nose"></div>
+      <div class="nav-strawberry">🍓</div>
+    </div>
+    <span>嘴替小张 · 30天计划</span>
+  </div>
+  <div class="nav-progress-wrap">
+    <span>完成</span>
+    <div class="bar-bg"><div class="bar-fg" id="progressBar" style="width:0%"></div></div>
+    <span id="progressPct" style="font-weight:700">0/30</span>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- Hero -->
+  <section class="hero">
+    <!-- Lotso CSS形象 -->
+    <div class="lotso-figure">
+      <div class="lotso-body">
+        <div class="lotso-belly-area"></div>
+        <div class="lotso-head">
+          <div class="lotso-ears">
+            <div class="lotso-ear left"></div>
+            <div class="lotso-ear right"></div>
+          </div>
+          <div class="lotso-eyebrows">
+            <div class="lotso-eyebrow"></div>
+            <div class="lotso-eyebrow"></div>
+          </div>
+          <div class="lotso-eyes">
+            <div class="lotso-eye"></div>
+            <div class="lotso-eye"></div>
+          </div>
+          <div class="lotso-muzzle">
+            <div class="lotso-nose"></div>
+          </div>
+          <div class="lotso-strawberry">🍓</div>
+        </div>
+      </div>
+      <div class="lotso-cane">🦯</div>
+    </div>
+
+    <h1>嘴替小张 · 30天行动计划</h1>
+    <p class="subtitle">加油，勤奋的你是未来之星！</p>
+    <p class="scent-tag">🍓 散发香甜草莓味 · 像Lotso一样可爱但战斗力爆表</p>
+    <div class="badge-row">
+      <span class="badge badge-fur">🎤 单人脱口秀</span>
+      <span class="badge badge-belly">🎯 幽默吐槽型</span>
+      <span class="badge badge-nose">👫 男女通吃</span>
+    </div>
+  </section>
+
+  <!-- 阶段切换 -->
+  <div class="phase-tabs">
+    <button class="phase-tab active" onclick="switchPhase(0)">
+      🌱 起步期 <span class="tab-cnt">Day 1-10</span>
+    </button>
+    <button class="phase-tab" onclick="switchPhase(1)">
+      🔥 放大期 <span class="tab-cnt">Day 11-20</span>
+    </button>
+    <button class="phase-tab" onclick="switchPhase(2)">
+      🚀 转化期 <span class="tab-cnt">Day 21-30</span>
+    </button>
+  </div>
+
+  <div class="phase-desc" id="phaseDesc">
+    <strong>🌱 起步期</strong> · 多角度试错，找到属于你的爆款公式
+  </div>
+
+  <!-- 卡片 -->
+  <div class="days-grid" id="daysGrid"></div>
+
+</div>
+
+<!-- 模态框 -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modalBox" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆</button>
+
+<footer class="footer">
+  <div class="lotso-bye">
+    🧸
+    <span class="mini-strawberry">🍓</span>
+  </div>
+  <p>嘴替小张 · 你的互联网嘴替</p>
+  <div class="strawberry-divider">🍓 🍓 🍓 🍓 🍓</div>
+  <p class="scent-text">Scented with Strawberry · 草莓熊陪你把30天走完</p>
+</footer>
+
+<script>
+// ============ 30天数据 ============
+var DAYS_DATA = [
+  {day:1, phase:0, topic:'第一次见面到底该不该AA？', type:'争议话题', duration:'60-75秒',
+   script:'OK家人们，今天聊一个每次提都要吵起来的话题——第一次见面，AA。\n\n我先说我的立场啊——谁约的谁买单，不分男女。你约人家出来，你选的地方，你定的时间，完了让人家掏一半？这不合适吧。\n\n但是，对方如果主动说要A，那这个人你可以加分。说明人家懂事，不占你便宜。可如果你真让对方A了——兄弟/姐妹，你可以回家了，真的。\n\n我跟你说句大实话——重点不是这顿饭几个钱，是你从这个事里能看到一个人的态度。在乎你的人不会让你在几十块钱上尴尬。啥都跟你算得清清楚楚的人——以后也啥都跟你算。\n\n你要是被约的那个、对方还让你A的——把这条视频转给TA，我不收你中介费。',
+   compliance:'立场中立不站队，不制造性别对立。不涉及敏感词。不诱导付费。'},
+  {day:2, phase:0, topic:'对方说"我比较慢热"，到底啥意思？', type:'潜规则揭密', duration:'50-65秒',
+   script:'我跟你们说啊，社交中最容易被误读的四个字——"我比较慢热"。今天给你们翻译翻译。\n\n第一种情况——她对你没啥太大感觉，但也不是完全没戏。翻译过来就是：你还要努力，但我不会给你承诺。\n\n第二种——她同时在见好几个人，你是选项之一。先排着队吧。\n\n第三种——人家确实刚分手或者受过伤，不敢太快。这个不是你的问题，是她的节奏。\n\n第四种——最扎心的——她在委婉拒绝你。不想太直接伤你自尊，用"慢热"给你个台阶下。\n\n怎么判断？看一个指标——她主不主动找你。从来不找你的，大概率第一或第二种。偶尔也找你的，可能是第三种。消息隔天才回、每次回两三个字——兄弟，你心里应该有数了。\n\n记住一句话：慢热不可怕，可怕的是你花三个月去暖一个根本不喜欢你的人。时间是你自己最贵的东西。',
+   compliance:'立场中立。不教PUA套路。不说黑话梗。强调尊重。'},
+  {day:3, phase:0, topic:'来看这条离谱的自我介绍——最后一条直接给我看傻了', type:'投稿点评', duration:'55-75秒',
+   script:'今天收到一条投稿，一个人的自我介绍。预警——坚持看到最后。\n\n男，28岁，身高172。国企上班。有房有贷。都正常。\n\n然后他写的要求：\n第一条，女方身高168以上，体重不过百。——你172要求人家168往上？\n第二条，必须是独生女，父母要有退休金。\n第三条，婚后必须跟他爸妈一起住。\n最后一条——女方必须会做饭。理由是——"我妈做了一辈子饭，现在该享福了。"\n\n我——等一下等一下。\n\n他妈妈做了一辈子饭该享福了，所以要找个接班的？？你是找对象还是找保姆啊？把结婚当工作交接是吧？\n\n说真的，这种不是在找人，是在发标书。标书上全是乙方要求，甲方自己有什么——对不起，除了"我是男的"，啥也没写。',
+   compliance:'投稿脱敏（无姓名/照片）。吐槽针对"要求不合理"而非攻击个人。'},
+  {day:4, phase:0, topic:'男生照片里为什么总有个篮球？研究了100张后我悟了', type:'吐槽观察', duration:'45-60秒',
+   script:'我发现了一个社交界的未解之谜——男生的照片里，十个有八个抱个篮球。为什么？？\n\n经典款盘点——有穿23号球衣的，表情管理满分，感觉自己是詹姆斯。有坐在篮球上摆拍的——篮球不是椅子兄弟。还有一种最绝的——拿篮球挡着脸的。你是来交友的还是给篮球打广告？\n\n我认真想了一下原因。一，篮球代表"我爱运动"，比写"爱好运动"省字。二，抱个东西拍照不尴尬，手有地方放。三——我说了你别打我——可能觉得篮球比自己脸好看。\n\n开玩笑啊开玩笑。\n\n说真的兄弟们，一张干净的、自然光下的正面照、带着笑，比一百个篮球管用。真的。',
+   compliance:'纯幽默吐槽，不涉及敏感词。不攻击任何平台或个人。'},
+  {day:5, phase:0, topic:'我上次见面的社死经历——现在想起来脚趾还在抠地', type:'个人经历', duration:'65-85秒',
+   script:'跟你们分享一个我自己的社死经历。前一阵子去见了个人，朋友介绍的。\n\n提前做了功课——看照片、查星座、补行业知识，就怕没话聊。\n\n结果见面聊得还行。他问我：你平时喜欢看什么？\n\n我想展示有趣嘛，就说——"最近在看一个纪录片，讲北极熊的。"\n\n他说："哦。北极熊。"\n\n我不知道哪根筋搭错，接了一句——"对啊，北极熊的皮肤其实是黑色的。"\n\n空气凝固三秒。我才反应过来——我刚才像个少儿科普节目主持人。\n\n然后他愣了半天问："那北极熊吃企鹅吗？"\n\n我说："……北极没有企鹅。"\n\n回家路上我自己都笑了。但后来想明白一件事——如果因为我聊北极熊就觉得我有问题，那本来也聊不下去。见面不是面试，你不用表现得完美。那个能接住你"北极熊冷知识"的人，才是对的人。',
+   compliance:'个人经历，不涉及第三方隐私。结尾正面价值观。'},
+  {day:6, phase:0, topic:'社交黑话翻译第①期："我这个人比较老实"到底啥意思？', type:'黑话翻译', duration:'50-65秒',
+   script:'新栏目——翻译社交中那些常听到、但真实意思可能不一样的词。第一期——\n\n"我这个人比较老实。"\n\n这句话频率巨高。翻译过来是什么？\n\n翻译一：我确实没啥拿得出手的优点，"老实"是我能找到的最好的词。\n\n翻译二：我条件一般、长相一般、收入一般——但我安全。安全的意思就是不会乱来，但也不会给你惊喜。\n\n翻译三——最关键的——我会用"老实"解释所有问题。吵架不哄你=老实不会说话。节日没表示=老实不懂浪漫。从不主动=老实不好意思。\n\n真老实的人不需要嘴巴上说——你能看见他的行为。判断一个人——看两件事：做错事了敢不敢认。对服务员什么态度。这两条比他说一万遍"我老实"都管用。',
+   compliance:'不贬低"老实"品质。区分真老实和假老实。不贴标签。'},
+  {day:7, phase:0, topic:'最近那个综艺的名场面——三句话把全场说沉默了', type:'热点蹭梗', duration:'50-70秒',
+   script:'最近有个综艺名场面看了没？一个男嘉宾，三句话，全场沉默。\n\n还原一下——\n第一句："希望未来另一半能和我一起孝顺我爸妈。"\n第二句："希望她性格温柔，不要太有主见。"\n第三句："我是个传统的人，家里的事女方应该多操点心。"\n\n来翻译——\n第一句=你要跟我一起伺候我爸妈。\n第二句=你要听话，不要有想法。\n第三句=我不要你觉得，我要我觉得。\n\n但说句公道话——这种在节目上说出来的反而好，真实想法摊开了。可怕的是一边说"我支持男女平等"、一边心里跟这位一模一样的人。\n\n节目上三句话看清一个人。现实里，你可能要花三个月。',
+   compliance:'吐槽针对言论不针对人。不点名具体节目。不攻击性别。'},
+  {day:8, phase:0, topic:'见面时最让人下头的5种行为——从第5到第1', type:'排行榜', duration:'55-70秒',
+   script:'排行榜——见面最下头的5种行为，从第5到第1。\n\n第5——全程看手机。我不是在跟你的手机见面。\n第4——带人来不提前说。闺蜜、兄弟、甚至妈妈。你是来见面的还是来组团的？\n第3——查户口式提问。工资多少、房子多大、爸妈退休金多少——我是来交朋友的，不是来办贷款的。\n第2——提前走人不买单。这个操作我只在电影里见过。这种人最后都是反派。\n第1——炫耀前任。"我前女友是空姐""我前男友开保时捷"。那你怎么不去找他们？？哦人家不要你了是吧。\n\n五种，你中了几个？评论区说。',
+   compliance:'五种行为男女都可能做。不点名性别。不涉及敏感词。'},
+  {day:9, phase:0, topic:'对方问房子——到底该怎么聊？今天不站队', type:'观点输出', duration:'60-80秒',
+   script:'今天不吐槽，聊一个很多人心里不舒服但不好意思说的事——对方问房子。\n\n先替问的人说。房子确实跟安全感挂钩。不是想占你便宜。房子连户口、学区、孩子上学——这种现实问题你不想，十年后也得想。很多女孩自己也有房，问你房子是想知道你的人生规划跟她是不是一个方向。\n\n再替被问的人说。现在靠自己在大城市买房的年轻人本来就很少。不是不努力，是房价和收入的关系放那。而且很多男生不是不想买，是不想把感情变成房产交易。"有房才聊"——感觉你不是在找人，是在找房源。\n\n我的看法——问房子本身能理解。但别拿房子当门票。了解经济状况是理性的，但用有没有房来卡"能不能开始"——那你找的可能不是人，是房东。',
+   compliance:'不宣扬"必须有房才能结婚"。保持中立。不讨论具体金额。'},
+  {day:10, phase:0, topic:'粉丝投稿：第一次见面，他带我去了商场过道的铁椅子', type:'投稿点评', duration:'65-80秒',
+   script:'今天读一条投稿，我笑了五分钟。\n\n投稿的姐妹说——第一次见面，男生说"我们随便找个地方坐坐"。她跟着走到了商场走道里的公共座椅。不是咖啡厅、不是奶茶店，是那种老年人走累了歇脚的铁椅子。\n\n她心想人家实在嘛，就坐下了。男的从包里掏了一瓶矿泉水。一小瓶。自己拧开喝。\n\n她渴了去买奶茶。男的说——"奶茶不健康，而且挺贵的。"\n\n她买回来喝了一口。男的凑过来："能给我尝一口吗？"\n\n尝。一。口。\n\n说实话——我先笑，笑完又觉得，也许人家不是抠，是真的没意识到这些细节对对方来说意味着什么。大方不是花多少钱，是你在不在乎对方的感受。',
+   compliance:'结尾给台阶"不是抠是不懂"。投稿脱敏。不攻击低收入群体。'},
+
+  {day:11, phase:1, topic:'社交黑话翻译第②期："随缘"到底随的什么缘？', type:'黑话翻译', duration:'45-60秒',
+   script:'第二期来啦。这期翻一个最佛系的词——"随缘"。\n\n什么叫随缘？\n\n第一种——我现在对你没啥感觉，但万一以后有呢？翻译：先别删我，也别抱太大希望。\n\n第二种——我不想主动，缘分要自己来。翻译：你来追我，但我不会明说。\n\n第三种——没看上你，但直接拒绝太尴尬。用"随缘"软着陆。\n\n终极翻译——不管什么结果我都不负责，缘分嘛，谁说得准呢？\n\n怎么判断？看之后还跟不跟你聊。消息频率从每天变每周——可以撤了。频率没变甚至更热情——可能随口说的，别紧张。',
+   compliance:'不攻击使用"随缘"的人。区分真佛系和假随缘。'},
+  {day:12, phase:1, topic:'粉丝投稿：对方带了三个朋友来——吃完还说下次单独约', type:'投稿点评', duration:'65-85秒',
+   script:'标题——论见面时的人口增长速度。\n\n一个兄弟的投稿。提前约好日料，人均一百多。第一次嘛，这个标准刚好。\n\n到了餐厅——对方带了三个朋友。三个。他一个人加对方四个，四人桌坐五个。\n\n他当场懵了。对方说——"她们刚好在附近逛街就过来了哈——"\n\n那个"哈——"他说一辈子忘不了。\n\n吃了一千八。最绝的是——吃完对方发消息："今天谢谢你请客哈，下次我们单独约。"\n\n三个问题——带三个人为什么不提前说。四个人吃了快两千，你连"AA吧"都没说。还有下次？？\n\n但我也要说另一面——想介绍朋友认识可以理解。但一定提前说。请一个人和请四个人是两个概念。',
+   compliance:'承认"带朋友"有合理（安全考虑）。吐槽针对"不提前说+不付钱"本身。'},
+  {day:13, phase:1, topic:'见面之前到底该不该先在线上聊？两边我都说清楚', type:'争议话题', duration:'55-70秒',
+   script:'这个问题后台收到几百条——见面之前该不该先在网上聊一阵？\n\n先聊派——聊一周能筛掉大部分人，省时间。聊过了见面不尴尬，有话题。\n\n但风险——聊得再好，见面可能是两个人。文字里的幽默，见面变沉默。你喜欢的是脑补版本。\n\n见面派——三分钟能看到的，网上三个月看不见。气质、谈吐、肢体语言。\n\n我的建议——折中。聊三天，最多五天，然后一定见面。三天够判断基本三观，又不至于拖出假的好感。超过一周没见的——大概率有人在拖。\n\n三天聊什么？第一天基本情况，第二天兴趣爱好，第三天定见面时间。别多聊，留着见面说。',
+   compliance:'中立不站队。不说绝对结论。不涉及敏感词汇。'},
+  {day:14, phase:1, topic:'"我妈觉得你挺好的"——这句话背后的潜台词', type:'潜规则揭密', duration:'50-65秒',
+   script:'有一种夸奖比"你是个好人"还让人后背发凉——"我妈觉得你挺好的。"\n\n翻译——不是我觉得你好，是我妈觉得你好。我本人还在观望。\n\n往深一层——以后在一起了，我妈的意见会频繁出现。你不是跟我谈恋爱，是跟我妈。优先级：我妈＞我＞你。\n\n不是说提妈妈就是问题。如果后面跟"我也觉得你很好"——加分项。只有"我妈觉得"——警觉。\n\n判断标准——看提到他妈的频率。第一次偶尔一两句，正常。三句不离"我妈说""我妈觉得""我妈希望"——你懂。',
+   compliance:'不攻击单亲或特定家庭结构。不贴标签。'},
+  {day:15, phase:1, topic:'他说"带你吃好吃的"，然后走进了沙县小吃', type:'投稿点评', duration:'55-70秒',
+   script:'先说——沙县很好吃，我自己也吃。蒸饺确实好吃。\n\n投稿姐妹——男生提前两天约她，"周末带你去吃好吃的"。她期待两天，做了头发。结果——沙县小吃。\n\n她的原话："我每天中午都在这家吃蒸饺。老板看到我带个男的一起来都笑了。"\n\n男生点鸡腿饭，她点蒸饺，不到四十块。男生边吃边说"这家我常来，味道正宗"。\n\n问题在哪？不是沙县不好——是你说"吃好吃的"，结果来了沙县。没有兑现承诺。不叫抠，叫你的"好吃标准"跟大家的默认差距有点大。\n\n但话说回来——如果男生真觉得沙县好吃，是真心想分享——那是认知偏差，不是人品问题。',
+   compliance:'不贬低平价品牌。区分认知偏差和人品问题。'},
+  {day:16, phase:1, topic:'社交中什么时候聊收入？怎么聊不尬？', type:'实用干货', duration:'60-75秒',
+   script:'所有人都在想、但没人敢第一个开口的话题——收入。\n\n为什么不敢聊？怕被说物质。怕被觉得查户口。文化里谈钱总感觉俗。\n\n但现实——两个人一起生活，房贷、孩子学费、父母养老全是钱。不敢谈钱的，以后十次吵架八次因为钱。\n\n什么时候聊？第一次别聊。第二三次，觉得愿意继续接触，可以问了。\n\n怎么问不尬？别问"你赚多少"。换成——"你对之后的财务规划是什么？"或"以后两个人经济怎么分工比较舒服？"不针对具体数字，但看出三观。\n\n收入差距大怎么办？不是不能在一起——低的那方能不能接受差距，高的那方愿不愿意放下优越感。',
+   compliance:'不说收入标准线。不宣扬收入决定论。保持中立。'},
+  {day:17, phase:1, topic:'加了之后发现对方朋友圈三天可见——别慌', type:'潜规则揭密', duration:'45-60秒',
+   script:'加了第一件事——看朋友圈。然后发现——三天可见。无数人因为这个睡不着。\n\n但其实——大概率自己想多了。\n\n情况一——人家本就三天可见，对所有人都这样。别加戏。\n\n情况二——以前全可见，加了你改三天。值得注意，但不是死刑。可能不想你把她几年前照片翻个遍。\n\n情况三——本来就关了，不爱发。跟你什么态度没关系。\n\n比起三天可见，看两个信号——她多久回你消息。秒回vs隔几天，差距比三天可见大一倍。她会主动找你吗？任何信号在"主动找"面前都不值一提。\n\n三天可见就是隐私设置，不是态度测试。别隔空诊断。直接约出来见一面。',
+   compliance:'尊重隐私设置。不教人破解。不鼓励过度解读。'},
+  {day:18, phase:1, topic:'对方条件都很好，但就是没感觉——是我太矫情了吗？', type:'情感深度', duration:'70-85秒',
+   script:'今天不是吐槽，是一条让我想了好一会儿的私信——"各方面条件都挺好，但就是没感觉。我是不是太矫情了？"\n\n一点都不矫情。这是最常见、但最难跟人解释的困境。因为身边人都说"条件这么好你还挑什么"\n\n但"条件好"三个字——收入、学历、家庭、长相——涵盖不了一种东西：你跟这个人待在一起的时候，自不自在。\n\n自在，我觉得这才是最重要的标准。条件再好，你在他面前话都不敢随便说，笑都要想怎么笑——那条件全是零。\n\n"没感觉"拆开——一，你需要演。二，聊天像做任务。三，不敢想跟这个人过一辈子。三点全中——不是矫情。\n\n另一面——有时候没感觉是还没了解。有些人第一面平平无奇，第三四面才发现宝藏。见三次——第一次见条件，第二次见性格，第三次见感觉。三次后还是"这个人很好，但是"——那个"但是"后面就是答案。',
+   compliance:'不说"将就""凑合"。提倡真诚感受但不否定理性判断。'},
+  {day:19, phase:1, topic:'第一次见面千万别碰的5个话题——最后一条太多人踩', type:'实用干货', duration:'55-70秒',
+   script:'第一次见面的朋友——五个话题最好别碰。\n\n第5——前任。"你前任是干什么的"——第一面提前任，要么没走出来，要么在比价。\n\n第4——收入数字。想问换一种："你对以后的工作有什么规划？"\n\n第3——父母退休金。第三面以后再说。第一面就问——你在查户口。\n\n第2——生孩子。"喜欢小孩吗""打算什么时候生"——第一次见！面！先确认她想不想跟你吃第二顿饭。\n\n第1——容易吵起来的话题。你是来交朋友的，不是找辩友。\n\n那该聊什么？三方向——童年囧事、旅行经历、最近在学的新东西。都能聊，而且能自然看出三观。',
+   compliance:'不制造"规矩清单"压迫感。建议非规定。'},
+  {day:20, phase:1, topic:'家里介绍 PK 朋友介绍——哪个更靠谱？', type:'争议话题', duration:'55-70秒',
+   script:'家里介绍和朋友介绍——哪个更靠谱？\n\n家里的优点——对方家庭你爸妈帮你摸过了，大方向不会太偏。双方家长积极撮合。对方也认真——没人敢跟爸妈朋友介绍的对象乱来。\n\n缺点——审美差距。"长得很端正"和"有感觉"可能是两个人。代沟——父母看重稳定、家境。你要有趣、有共同语言。\n\n朋友的优点——了解你，不瞎介绍。同圈层，有基础信任。轻松——没压力。\n\n缺点——有些朋友瞎介绍——"我觉得你俩都单身"是唯一标准。不成朋友在中间尴尬。\n\n我的排序——靠谱朋友＞靠谱家里＞不靠谱家里＞不靠谱朋友。标准不是谁介绍的，是介绍人是不是真懂你。',
+   compliance:'不贬低父母审美。"靠谱"是核心标准。'},
+
+  {day:21, phase:2, topic:'五分钟判断这个人值不值得再见面——三个小方法', type:'实用干货', duration:'65-80秒',
+   script:'一年见十几个人——大部分时间浪费在不对的人身上。三个判断方法，五分钟知道值不值得见第二面。\n\n一——看他对服务人员的态度。服务员、司机、保洁。对强者客气是本能，对弱者尊重是人品。点菜结账叫车时看一眼。\n\n二——听他聊过去感情的语气。全是对方的错——"之前那个怎么渣"——警觉。不是说不能吐槽——但每段都是别人渣他——你品。\n\n三——小分歧处理。他想吃辣的你想清淡。直接否定你"那个有啥好吃"，还是说"那我们一样来一个"——小选择里的方式，放大就是相处模式。',
+   compliance:'观察不是考验。不教人测试或算计。不提敏感引流词。'},
+  {day:22, phase:2, topic:'一个信息差：他说的"有存款"跟你想的可能不一样', type:'投稿点评', duration:'60-75秒',
+   script:'说"存款有几十个"，但后来发现月薪三千。\n\n算笔账。月薪三千，五年不吃不喝——总共18万。多的哪来？\n\n一——家里的。存款含了爸妈积累。钱是那个数，支配权在谁手里不好说。\n\n二——一次性收入。拆迁、投资赚一笔。说明过去运气，不代表持续能力。\n\n三——你懂的。把"房子值多少"约等于"我有多少"。或干脆注水。\n\n三种情况未来完全不一样。家里给的看长辈脸色。一次性的看怎么规划。注水的——跟没有有什么区别。\n\n别只听一个数。多问一层——存下来的还是家里给的？一次还是持续？支支吾吾答不上来——你大概知道怎么回事了。',
+   compliance:'不宣扬低收入不配。重点是信息真实性。'},
+  {day:23, phase:2, topic:'见面最怕的不是条件差——是面对面坐着没话说', type:'实用干货', duration:'55-70秒',
+   script:'见面最尴尬的——不是条件不好，是人不错，但面对面就是没话说。那种安静比吐槽让人窒息。\n\n三救场法——\n\n一——别问"做什么"，问"怎么入这行"。前者查户口，后者听故事。人会忘记自己说了什么，但记住被认真听的感觉。\n\n二——准备三个找共同点的问题。下班喜欢干嘛、最想去哪旅行、最爱的一道菜。都能答，容易发现交集。\n\n三——最重要。别怕冷场。偶尔安静是正常的。不会聊天不是你不行，是太紧张。你先放松，对方跟着放松。你不是主持人，不用填满每一秒。',
+   compliance:'不传播社交焦虑。强调紧张是正常的。'},
+  {day:24, phase:2, topic:'女生到底要不要主动？这个问题我被问了一百遍了', type:'争议话题', duration:'60-75秒',
+   script:'被问至少一百遍——女生要不要主动？\n\n结论——要。但不是追着跑。是释放"我还OK，你可以继续"的信号。\n\n点赞朋友圈、说一句"今天聊得开心"、有好感就主动发个消息——不是掉价，是你在做选择。等着被动=被人筛选。主动=你在筛选别人。\n\n但主动有边界。天天早安晚安、对方冷淡还硬聊、刚认识就送东西——不叫主动，叫没必要。\n\n一个判断法——你主动两次，看对方有没有主动一次。发消息不回——别再发。约人说忙——等他约你。有来有往才正常。',
+   compliance:'不贬低被动女生。不教套路或PUA。正向价值观。'},
+  {day:25, phase:2, topic:'今天不吐槽——念一封好消息：她说她遇到了', type:'成功案例', duration:'70-85秒',
+   script:'今天不看奇葩——念一条好消息。\n\n一个姐妹的——"小张，我进了你那边之后，没怎么说过话，就每天看大家聊。有天晚上大家聊‘最不能接受什么行为’。我写了上次迟到一小时还催我的经历。"\n\n"然后有个男生回：迟到一小时不道歉还嫌你催——你居然等了？"\n\n"就这一句注意到他了。后来加了我。聊着聊着发现都喜欢爬山、都养猫、都不吃香菜。"\n\n"三个月后在一起。半年了。想跟你说谢谢。"\n\n说实话——最开心的不是涨粉爆款，是收到这种消息。说明认真的人比不认真的多。你只需要对的地方，遇到对的人。',
+   compliance:'不编造虚假案例。没有就标注"改编自真实对话"。正向但不承诺。'},
+  {day:26, phase:2, topic:'自我介绍里最常见的5种"美颜"——教你看穿', type:'实用干货', duration:'55-70秒',
+   script:'建议收藏——自我介绍里常见的"美颜滤镜"。\n\n一，身高。"175左右"≈172。"个子不矮"≈168。具体数字的一般真实。\n\n二，工作。"做金融"=可能卖保险。"干互联网"=可能做审核。"自由职业"——自己脑补。敢写具体岗位和公司的更真实。\n\n三，爱好。"喜欢健身"=办过卡。"喜欢读书"=买过书。"喜欢旅行"=去过三亚。真有爱好的会说具体——"每周末打羽毛球"和"喜欢运动"两个概念。\n\n四，性格。"性格开朗""为人真诚""对感情专一"——人人会写，等于没说。性格得见面感受。\n\n五，经济。"有房"——在哪、多大、全款按揭差太多。"有车"——可能十年车龄。',
+   compliance:'分清正常美化和恶意欺骗。不打击自我表达意愿。'},
+  {day:27, phase:2, topic:'为什么条件越好的人越不容易遇到合适的？不是凡尔赛', type:'观点输出', duration:'60-75秒',
+   script:'一种人——长得不错、工作好、性格好——但单着。反常识：条件越好，越不容易遇到合适的。\n\n不是凡尔赛。有道理。\n\n一，选择太多反而选不了。看三个觉得第三个可以就选了。看三十个觉得第三十一个更好。永远等下个。\n\n二，标准涨得比条件快。月薪一万觉得八千可以。月薪三万觉得两万五才行。"标准通胀"——自己条件每涨一分，对别人要求涨三分。\n\n三，最重要——条件好的人脑袋里有张"打分表"。收入学历长相家庭一项项打勾。但合适不是勾选项。让你笑得出来、有话聊、待着自在的人——跟表上的勾没关系。\n\n试试放下一部分匹配思维。用认识新朋友的心态认识人。压力小，意外多。',
+   compliance:'不炫耀不贬低。不以"降低标准"为结论。'},
+  {day:28, phase:2, topic:'不上软件不靠介绍——她用一种新方式遇到了靠谱的人', type:'产品介绍', duration:'65-80秒',
+   script:'分享一个人的经历——试过各种软件和朋友介绍，要么信息不真实、要么遇到的人目的不纯。\n\n后来尝试了——在小圈子里展示真实的自己，等真正感兴趣的人来找她。\n\n区别在哪——一，展示前有审核，不会遇到假信息假照片。二，只有真感兴趣的人才会主动来认识——这个小门槛筛掉多半随便的人。三——"这里的人都是认真来的，不是来玩的。"\n\n展示了两周，收到几个想认识她的请求。选了一个开始聊——说目前感觉还不错。\n\n就是填一份真实的个人介绍——城市、年龄、职业、爱好、对理想型的期待。做成展示小卡片。女生不花钱。男生一杯奶茶的事。\n\n如果有人想认识你——一定先问你同不同意。你同意才给。这是底线。',
+   compliance:'不用"信息墙""相亲""脱单""匹配"等敏感词。费用模糊表达。强调"先问同意"。'},
+  {day:29, phase:2, topic:'15个让人瞬间下头的行为大合集——从第15到第1', type:'排行榜', duration:'70-90秒',
+   script:'大合集——15个最下头行为，从第15到第1。\n\n15——上来就问"谈过几个"\n14——吃饭吧唧嘴还一直说话\n13——穿拖鞋就来了\n12——全程聊自己，一句不问你的\n11——"就想找个贤惠的"\n10——"你爸妈有退休金吗"第一面\n9——"你本人比照片好看"\n8——吃完假装接电话人没了\n7——三句不离"我妈说"\n6——当你面刷手机\n5——"你怎么不化妆啊"\n4——第一次见面带了妈妈\n3——"工资多少有房吗什么车"三联暴击\n2——聊前任半小时最后哭了\n第1名——以上14条全中的人。\n\n不是我一个人总结的——朋友们亲身经历投票。来找我玩，别人帮你踩过就别再踩了。',
+   compliance:'男女槽点都有，保持男女通吃。不攻击特定群体。'},
+  {day:30, phase:2, topic:'做了整整30天了——今天不吐槽，就聊几句', type:'总结走心', duration:'80-100秒',
+   script:'整整30天。每天一条没断过。今天不选题不写脚本——随意聊。\n\n最大感受不是奇葩多——是太多认真的人被困住了。困在父母压力里、困在"到了年纪就该"的不知道谁定的规矩里、困在一次又一次"对方挺好的但就是不对"里。\n\n评论和私信常看到——"不是不想找，是真的遇不到。"\n\n所以弄了那个一起聊天的地方。不是"速配"——就是不用假装、不用端着、不用每次见面像面试的地方。30天了，好几百号人，几个好消息。数字不大，但每个都很真。\n\n三句话——\n一，不用让每个人都喜欢你。不合适是常态，被拒绝也是。不是你不好。\n二，别用"我应该"找，用"我想要"找。\n三，别当"找结果"，当"认识人"——压力小，意外多。\n\n第31天，继续。',
+   compliance:'不推产品不推销。真诚是唯一技巧。不承诺。温暖不煽情。'},
+];
+
+// ============ 渲染 ============
+var currentPhase = 0;
+var phaseNames = ['起步期', '放大期', '转化期'];
+var phaseDescs = [
+  '多角度试错，找到属于你的爆款公式',
+  '聚焦放大已验证的方向，建立粉丝粘性',
+  '转化导入，跑通内容到私域的引流模式'
+];
+var phaseIcons = ['🌱', '🔥', '🚀'];
+
+// HTML 转义
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// 安全读写 localStorage
+function getDone() {
+  try { return JSON.parse(localStorage.getItem('lotso_day_done') || '[]'); } catch(e) { return []; }
+}
+function saveDone(arr) {
+  try { localStorage.setItem('lotso_day_done', JSON.stringify(arr)); } catch(e) {}
+}
+
+function switchPhase(i) {
+  currentPhase = i;
+  var tabs = document.querySelectorAll('.phase-tab');
+  for (var j = 0; j < tabs.length; j++) {
+    tabs[j].classList.toggle('active', j === i);
+  }
+  document.getElementById('phaseDesc').innerHTML = '<strong>' + phaseIcons[i] + ' ' + phaseNames[i] + '</strong> · ' + phaseDescs[i];
+  renderCards();
+}
+
+function toggleDay(day) {
+  var done = getDone();
+  var idx = done.indexOf(day);
+  if (idx > -1) { done.splice(idx, 1); } else { done.push(day); }
+  saveDone(done);
+  renderCards();
+  updateProgress();
+}
+
+function updateProgress() {
+  var done = getDone();
+  var bar = document.getElementById('progressBar');
+  var pct = document.getElementById('progressPct');
+  if (bar) bar.style.width = Math.round(done.length / 30 * 100) + '%';
+  if (pct) pct.textContent = done.length + '/30';
+}
+
+function findDay(dayNum) {
+  for (var i = 0; i < DAYS_DATA.length; i++) {
+    if (DAYS_DATA[i].day === dayNum) return DAYS_DATA[i];
+  }
+  return null;
+}
+
+function openModal(dayNum) {
+  var d = findDay(dayNum);
+  if (!d) return;
+  document.getElementById('modalContent').innerHTML =
+    '<span style="font-size:0.85rem;color:var(--lotso-fur-deep);font-weight:700;background:#F8E0EA;padding:4px 14px;border-radius:14px;">📅 Day ' + d.day + ' · ' + esc(d.type) + ' · ' + esc(d.duration) + '</span>' +
+    '<h3>' + esc(d.topic) + '</h3>' +
+    '<div class="section-label">🎤 话术脚本</div>' +
+    '<div class="script-text">' + esc(d.script) + '</div>' +
+    '<div class="section-label">⚠️ 合规提醒</div>' +
+    '<p style="font-size:0.9rem;color:var(--text-light);line-height:1.7;background:#FFF5F0;padding:12px;border-radius:12px;">' + esc(d.compliance) + '</p>';
+  document.getElementById('modalOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+}
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// 类型颜色映射
+var TAG_COLORS = {
+  '争议话题':'#FF5722', '潜规则揭密':'#7B3F8C', '投稿点评':'#2196F3',
+  '吐槽观察':'#FF9800', '个人经历':'#4CAF50', '黑话翻译':'#795548',
+  '热点蹭梗':'#E91E63', '排行榜':'#F44336', '观点输出':'#009688',
+  '实用干货':'#3F51B5', '情感深度':'#9C27B0', '成功案例':'#8BC34A',
+  '产品介绍':'#00BCD4', '总结走心':'#FF6F00'
+};
+
+// 渲染卡片（纯 innerHTML，事件委托）
+function renderCards() {
+  var done = getDone();
+  var html = '';
+  for (var i = 0; i < DAYS_DATA.length; i++) {
+    var d = DAYS_DATA[i];
+    if (d.phase !== currentPhase) continue;
+    var isDone = done.indexOf(d.day) > -1;
+    var tc = TAG_COLORS[d.type] || '#A04030';
+
+    // 预览
+    var lines = d.script.split('\n');
+    var previewArr = [];
+    for (var l = 0; l < lines.length && previewArr.length < 2; l++) {
+      if (lines[l].trim()) previewArr.push(lines[l]);
+    }
+    var preview = esc(previewArr.join(' ').substring(0, 130));
+
+    html +=
+      '<div class="day-card' + (isDone ? ' done' : '') + '" data-day="' + d.day + '">' +
+        '<div class="day-card-header">' +
+          '<div class="day-num">' + d.day + '</div>' +
+          '<span class="day-type-tag" style="background:' + tc + ';color:#fff;">' + esc(d.type) + '</span>' +
+        '</div>' +
+        '<div class="day-topic">' + esc(d.topic) + '</div>' +
+        '<div class="day-meta"><span>⏱ ' + esc(d.duration) + '</span><span>🎯 ' + phaseNames[d.phase] + '</span></div>' +
+        '<div class="day-script-preview">' + preview + '...</div>' +
+        '<div class="checkbox-area">' +
+          '<input type="checkbox" data-day="' + d.day + '"' + (isDone ? ' checked' : '') + '>' +
+          '<label>✅ 标记完成</label>' +
+        '</div>' +
+      '</div>';
+  }
+  document.getElementById('daysGrid').innerHTML = html;
+  updateProgress();
+}
+
+// ============ 全局事件委托（立即执行，DOM 已就绪） ============
+(function() {
+  renderCards();
+
+  var grid = document.getElementById('daysGrid');
+
+  // 卡片点击 → 打开弹窗
+  grid.addEventListener('click', function(e) {
+    var el = e.target;
+    while (el && el !== grid) {
+      if (el.classList && el.classList.contains('day-card')) {
+        var dayNum = parseInt(el.getAttribute('data-day'));
+        if (!isNaN(dayNum)) openModal(dayNum);
+        return;
+      }
+      el = el.parentElement;
+    }
+  });
+
+  // 复选框 → 切换完成状态
+  grid.addEventListener('change', function(e) {
+    if (e.target && e.target.type === 'checkbox') {
+      var dayNum = parseInt(e.target.getAttribute('data-day'));
+      if (!isNaN(dayNum)) toggleDay(dayNum);
+    }
+  });
+
+  // 阻止 checkbox 冒泡触发卡片点击
+  grid.addEventListener('click', function(e) {
+    var el = e.target;
+    while (el && el !== grid) {
+      if (el.classList && el.classList.contains('checkbox-area')) {
+        e.stopPropagation();
+        return;
+      }
+      el = el.parentElement;
+    }
+  });
+
+  // 飘落粒子
+  var pc = document.getElementById('particles');
+  var pe = ['🍓','⭐','❤️','🧸','✨','💖','🌸','💫','🫧','🍀'];
+  for (var pi = 0; pi < 30; pi++) {
+    var ps = document.createElement('span');
+    ps.className = 'particle';
+    ps.textContent = pe[Math.floor(Math.random() * pe.length)];
+    ps.style.left = Math.random() * 100 + '%';
+    ps.style.animationDuration = (7 + Math.random() * 12) + 's';
+    ps.style.animationDelay = Math.random() * 10 + 's';
+    ps.style.fontSize = (16 + Math.random() * 24) + 'px';
+    pc.appendChild(ps);
+  }
+
+  // 回到顶部
+  window.addEventListener('scroll', function() {
+    var btn = document.getElementById('backTop');
+    if (btn) btn.classList.toggle('show', window.scrollY > 500);
+  });
+
+  // ESC 关闭弹窗
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' || e.keyCode === 27) closeModalDirect();
+  });
+})();
+</script>
+</body>
+</html>
