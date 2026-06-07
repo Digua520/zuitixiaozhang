@@ -1088,6 +1088,150 @@ body::before {
   letter-spacing: 8px; margin: 8px 0;
   opacity: 0.5;
 }
+
+/* ============ AI 聊天浮窗 ============ */
+.chat-fab {
+  position: fixed; bottom: 28px; right: 28px;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--lotso-fur), var(--lotso-fur-deep));
+  color: #fff;
+  border: 3px solid var(--lotso-belly);
+  font-size: 1.6rem;
+  cursor: pointer;
+  box-shadow: 0 6px 24px var(--toy-shadow-lg);
+  z-index: 300;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s;
+  animation: fabPulse 3s ease-in-out infinite;
+}
+.chat-fab:hover { transform: scale(1.1); }
+.chat-fab.hidden { display: none; }
+@keyframes fabPulse {
+  0%,100% { box-shadow: 0 6px 24px var(--toy-shadow-lg); }
+  50% { box-shadow: 0 6px 36px rgba(192,96,128,0.5); }
+}
+
+.chat-window {
+  position: fixed; bottom: 96px; right: 28px;
+  width: 380px; max-height: 520px;
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 16px 48px rgba(62,26,46,0.25);
+  z-index: 300;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  border: 3px solid #F8E0EA;
+}
+.chat-window.open { display: flex; }
+
+.chat-header {
+  background: linear-gradient(135deg, var(--lotso-fur-deep), var(--lotso-fur));
+  color: #fff;
+  padding: 14px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px;
+}
+.chat-header h4 { font-size: 0.95rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+.chat-header .chat-close {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: none; background: rgba(255,255,255,0.2);
+  color: #fff; font-size: 1rem; cursor: pointer;
+  transition: background 0.2s;
+}
+.chat-header .chat-close:hover { background: rgba(255,255,255,0.35); }
+
+.chat-messages {
+  flex: 1; overflow-y: auto;
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
+  min-height: 200px; max-height: 340px;
+  background: linear-gradient(180deg, #FFF8EC, #FDF0F4);
+}
+.chat-msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 0.84rem;
+  line-height: 1.65;
+  word-break: break-word;
+}
+.chat-msg.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--lotso-fur), var(--lotso-fur-deep));
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.chat-msg.bot {
+  align-self: flex-start;
+  background: #fff;
+  border: 1.5px solid #F8E0EA;
+  border-bottom-left-radius: 4px;
+  color: var(--text);
+}
+
+.chat-typing {
+  align-self: flex-start;
+  display: flex; gap: 4px; padding: 8px 14px;
+  background: #fff; border-radius: 16px;
+  border: 1.5px solid #F8E0EA;
+}
+.chat-typing span {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--lotso-fur-light);
+  animation: typingBounce 1.2s infinite;
+}
+.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+  0%,60%,100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-8px); opacity: 1; }
+}
+
+.chat-input-area {
+  display: flex; gap: 8px;
+  padding: 12px 14px;
+  border-top: 1px solid #F8E0EA;
+  background: #fff;
+}
+.chat-input-area input {
+  flex: 1; border: 2px solid #F8E0EA;
+  border-radius: 20px; padding: 10px 16px;
+  font-size: 0.84rem; outline: none;
+  transition: border-color 0.2s;
+  font-family: inherit;
+}
+.chat-input-area input:focus { border-color: var(--lotso-fur-light); }
+.chat-input-area button {
+  width: 40px; height: 40px; border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--lotso-fur), var(--lotso-fur-deep));
+  color: #fff; font-size: 1.1rem; cursor: pointer;
+  transition: transform 0.2s; flex-shrink: 0;
+}
+.chat-input-area button:hover { transform: scale(1.08); }
+.chat-input-area button:disabled { opacity: 0.5; transform: none; cursor: default; }
+
+/* 手机端聊天窗口 */
+@media (max-width: 768px) {
+  .chat-fab { bottom: 20px; right: 16px; width: 50px; height: 50px; font-size: 1.3rem; }
+  .chat-window {
+    bottom: 80px; right: 8px; left: 8px;
+    width: auto; max-height: 55vh;
+    border-radius: 18px;
+  }
+  .chat-header { padding: 12px 14px; }
+  .chat-header h4 { font-size: 0.85rem; }
+  .chat-messages { padding: 12px; max-height: 35vh; }
+  .chat-msg { font-size: 0.8rem; padding: 8px 12px; }
+  .chat-input-area { padding: 10px; gap: 6px; }
+  .chat-input-area input { padding: 8px 12px; font-size: 0.8rem; }
+  .chat-input-area button { width: 36px; height: 36px; }
+}
+
+/* 隐藏聊天按钮在欢迎页展示时 */
+.welcome-overlay ~ .chat-fab { display: none; }
 </style>
 </head>
 <body>
@@ -1610,7 +1754,28 @@ function renderCards() {
     // 4秒后自动消失
     setTimeout(dismiss, 4000);
   })();
+
+  // ============ AI 聊天浮窗 ============
+  (function() {
+    var BOT_ID = 'YOUR_BOT_ID_HERE';
+
+    if (BOT_ID === 'YOUR_BOT_ID_HERE') return;
+
+    new CozeWebSDK.WebChatClient({
+      config: { bot_id: BOT_ID },
+      componentProps: {
+        title: '🧸 地瓜老大 · AI顾问',
+        icon: '🍓',
+        layout: 'pc'
+      },
+      el: document.getElementById('cozeChat')
+    });
+  })();
 })();
 </script>
+<!-- Coze AI 聊天 Bot -->
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.1.0-beta.2/libs/cn/index.js"></script>
+<div id="cozeChat"></div>
+
 </body>
 </html>
