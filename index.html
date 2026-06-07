@@ -742,6 +742,154 @@ body::before {
   .modal .script-text { font-size: 0.8rem; padding: 12px; }
 }
 
+/* ============ 欢迎覆盖层 ============ */
+.welcome-overlay {
+  position: fixed; top:0; left:0; width:100%; height:100%;
+  background: linear-gradient(160deg, #FFF8EC 0%, #FDF0F4 40%, #F8E0EA 60%, #FFF8EC 100%);
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+  animation: welcomeFadeIn 0.5s ease;
+}
+@keyframes welcomeFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.welcome-overlay.fadeout {
+  animation: welcomeFadeOut 0.8s ease forwards;
+  pointer-events: none;
+}
+@keyframes welcomeFadeOut {
+  to { opacity: 0; transform: scale(1.1); }
+}
+.welcome-lotso {
+  animation: welcomeBounce 1.2s cubic-bezier(0.34,1.56,0.64,1) infinite;
+  margin-bottom: 16px;
+  position: relative;
+}
+@keyframes welcomeBounce {
+  0%,100% { transform: translateY(0) scale(1); }
+  40% { transform: translateY(-22px) scale(1.08); }
+  60% { transform: translateY(-6px) scale(0.96); }
+}
+.welcome-strawberry {
+  position: absolute;
+  top: -18px; left: 50%; transform: translateX(-50%);
+  font-size: 2.5rem;
+  animation: welcomeStrawSpin 0.8s cubic-bezier(0.34,1.56,0.64,1) infinite;
+}
+@keyframes welcomeStrawSpin {
+  0%,100% { transform: translateX(-50%) rotate(0) scale(1); }
+  50% { transform: translateX(-50%) rotate(12deg) scale(1.25); }
+}
+.welcome-text {
+  font-size: 2.2rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--lotso-fur-deep), var(--lotso-fur), var(--lotso-nose));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-align: center;
+  animation: welcomeTextIn 0.7s 0.25s ease both;
+}
+@keyframes welcomeTextIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.welcome-hint {
+  margin-top: 14px;
+  font-size: 0.9rem; color: var(--text-light);
+  animation: welcomeHintPulse 2s ease-in-out infinite;
+}
+@keyframes welcomeHintPulse {
+  0%,100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+.welcome-sparkles {
+  position: absolute;
+  width: 100%; height: 100%;
+  pointer-events: none; top:0; left:0;
+}
+.welcome-sparkle {
+  position: absolute;
+  animation: sparkleFloat 2.5s ease-in-out infinite;
+}
+@keyframes sparkleFloat {
+  0%,100% { opacity: 0; transform: translateY(0) scale(0); }
+  50% { opacity: 0.8; transform: translateY(-60px) scale(1); }
+}
+
+/* ============ 资料库卡片 ============ */
+.doc-card {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+  border-radius: 22px;
+  padding: 24px;
+  border: 2.5px solid #F8E0EA;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.03);
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+  position: relative; overflow: hidden;
+  cursor: pointer;
+  display: flex; align-items: center; gap: 18px;
+}
+.doc-card::before {
+  content: '';
+  position: absolute; top:0; left:0; right:0; height: 4px;
+  background: linear-gradient(90deg, var(--lotso-nose), var(--lotso-fur), var(--strawberry));
+  border-radius: 22px 22px 0 0;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s ease;
+}
+.doc-card:hover::before { transform: scaleX(1); }
+.doc-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 44px var(--toy-shadow-lg);
+  border-color: var(--lotso-fur-light);
+}
+.doc-icon {
+  width: 64px; height: 64px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+  background: linear-gradient(135deg, #FFF5F0, var(--lotso-belly));
+  box-shadow: 0 3px 12px var(--toy-shadow);
+}
+.doc-info { flex:1; min-width:0; }
+.doc-info h4 {
+  font-size: 1rem; font-weight: 800;
+  color: var(--text); margin-bottom: 4px;
+}
+.doc-info p {
+  font-size: 0.8rem; color: var(--text-light);
+  line-height: 1.5;
+}
+.doc-meta {
+  font-size: 0.72rem; color: var(--lotso-fur);
+  margin-top: 6px; font-weight: 600;
+}
+/* 手机端资料卡 */
+@media (max-width: 768px) {
+  .doc-card {
+    padding: 16px; gap: 14px; border-radius: 18px;
+    border-width: 2px;
+  }
+  .doc-card:hover {
+    transform: none; box-shadow: 0 4px 18px rgba(0,0,0,0.03);
+  }
+  .doc-card:active {
+    transform: scale(0.98);
+    box-shadow: 0 8px 28px var(--toy-shadow-lg);
+    border-color: var(--lotso-fur-light);
+  }
+  .doc-icon { width: 50px; height: 50px; font-size: 1.5rem; border-radius: 12px; }
+  .doc-info h4 { font-size: 0.9rem; }
+  .doc-info p { font-size: 0.74rem; }
+}
+@media (max-width: 400px) {
+  .doc-card { padding: 14px; gap: 10px; }
+  .doc-icon { width: 42px; height: 42px; font-size: 1.3rem; }
+}
+
 /* ============ 草莓装饰分隔线 ============ */
 .strawberry-divider {
   text-align: center; font-size: 1.2rem;
@@ -751,6 +899,17 @@ body::before {
 </style>
 </head>
 <body>
+
+<!-- 欢迎覆盖层 -->
+<div class="welcome-overlay" id="welcomeOverlay">
+  <div class="welcome-sparkles" id="welcomeSparkles"></div>
+  <div class="welcome-lotso">
+    <span class="welcome-strawberry">🍓</span>
+    <span style="font-size:5rem;">🧸</span>
+  </div>
+  <div class="welcome-text">地瓜老大来了</div>
+  <div class="welcome-hint">🍓 点击任意位置进入</div>
+</div>
 
 <!-- 飘落粒子 -->
 <div class="particles" id="particles"></div>
@@ -823,6 +982,9 @@ body::before {
     </button>
     <button class="phase-tab" onclick="switchPhase(2)">
       🚀 转化期 <span class="tab-cnt">Day 21-30</span>
+    </button>
+    <button class="phase-tab" onclick="switchPhase(3)">
+      📚 资料库
     </button>
   </div>
 
@@ -952,15 +1114,27 @@ var DAYS_DATA = [
    compliance:'不推产品不推销。真诚是唯一技巧。不承诺。温暖不煽情。'},
 ];
 
+// ============ 资料库数据 ============
+var DOCS_DATA = [
+  {title:'30天详细操作手册', desc:'每日操作步骤、选题方向、发布节奏全流程', icon:'📖', file:'30天详细操作手册.pdf', size:'700 KB'},
+  {title:'30天详细操作手册·修订版', desc:'补充合规调整后的修订版本', icon:'📝', file:'30天详细操作手册·修订版.pdf', size:'607 KB'},
+  {title:'三阶段执行计划表', desc:'起步期·放大期·转化期的里程碑与KPI', icon:'📊', file:'三阶段执行计划表.pdf', size:'241 KB'},
+  {title:'变现体系与社群运营手册', desc:'从内容引流到私域变现的完整链路', icon:'💰', file:'变现体系与社群运营手册.pdf', size:'248 KB'},
+  {title:'嘴替小张·账号完整运营方案', desc:'账号定位、人设、内容体系的顶层设计', icon:'🎯', file:'嘴替小张·账号完整运营方案.pdf', size:'254 KB'},
+  {title:'选题库·前30天内容日历', desc:'前30天每天的具体选题与备份选题', icon:'🗓', file:'选题库·前30天内容日历.pdf', size:'247 KB'},
+  {title:'3000粉驾校账号分析与处理方案', desc:'旧账号诊断与转型策略参考', icon:'🔧', file:'3000粉驾校账号分析与处理方案.pdf', size:'261 KB'}
+];
+
 // ============ 渲染 ============
 var currentPhase = 0;
-var phaseNames = ['起步期', '放大期', '转化期'];
+var phaseNames = ['起步期', '放大期', '转化期', '资料库'];
 var phaseDescs = [
   '多角度试错，找到属于你的爆款公式',
   '聚焦放大已验证的方向，建立粉丝粘性',
-  '转化导入，跑通内容到私域的引流模式'
+  '转化导入，跑通内容到私域的引流模式',
+  '项目文档 & 参考资料下载'
 ];
-var phaseIcons = ['🌱', '🔥', '🚀'];
+var phaseIcons = ['🌱', '🔥', '🚀', '📚'];
 
 // HTML 转义
 function esc(s) {
@@ -981,7 +1155,12 @@ function switchPhase(i) {
   for (var j = 0; j < tabs.length; j++) {
     tabs[j].classList.toggle('active', j === i);
   }
-  document.getElementById('phaseDesc').innerHTML = '<strong>' + phaseIcons[i] + ' ' + phaseNames[i] + '</strong> · ' + phaseDescs[i];
+  var descEl = document.getElementById('phaseDesc');
+  if (i === 3) {
+    descEl.innerHTML = '<strong>📚 资料库</strong> · 点击文档卡片即可在线查看或下载';
+  } else {
+    descEl.innerHTML = '<strong>' + phaseIcons[i] + ' ' + phaseNames[i] + '</strong> · ' + phaseDescs[i];
+  }
   renderCards();
 }
 
@@ -1043,8 +1222,28 @@ var TAG_COLORS = {
   '产品介绍':'#00BCD4', '总结走心':'#FF6F00'
 };
 
+// 渲染资料库
+function renderDocs() {
+  var html = '';
+  for (var i = 0; i < DOCS_DATA.length; i++) {
+    var d = DOCS_DATA[i];
+    html +=
+      '<div class="doc-card" data-file="docs/' + esc(d.file) + '">' +
+        '<div class="doc-icon">' + d.icon + '</div>' +
+        '<div class="doc-info">' +
+          '<h4>' + esc(d.title) + '</h4>' +
+          '<p>' + esc(d.desc) + '</p>' +
+          '<div class="doc-meta">📄 PDF · ' + esc(d.size) + '</div>' +
+        '</div>' +
+        '<span style="font-size:1.5rem;flex-shrink:0;color:var(--lotso-fur-light);">📥</span>' +
+      '</div>';
+  }
+  document.getElementById('daysGrid').innerHTML = html;
+}
+
 // 渲染卡片（纯 innerHTML，事件委托）
 function renderCards() {
+  if (currentPhase === 3) { renderDocs(); return; }
   var done = getDone();
   var html = '';
   for (var i = 0; i < DAYS_DATA.length; i++) {
@@ -1086,14 +1285,23 @@ function renderCards() {
 
   var grid = document.getElementById('daysGrid');
 
-  // 卡片点击 → 打开弹窗
+  // 卡片点击 → 打开弹窗 / 资料库下载
   grid.addEventListener('click', function(e) {
     var el = e.target;
     while (el && el !== grid) {
-      if (el.classList && el.classList.contains('day-card')) {
-        var dayNum = parseInt(el.getAttribute('data-day'));
-        if (!isNaN(dayNum)) openModal(dayNum);
-        return;
+      if (el.classList) {
+        // 资料库文档卡片
+        if (el.classList.contains('doc-card')) {
+          var file = el.getAttribute('data-file');
+          if (file) window.open(file, '_blank');
+          return;
+        }
+        // 30天卡片
+        if (el.classList.contains('day-card')) {
+          var dayNum = parseInt(el.getAttribute('data-day'));
+          if (!isNaN(dayNum)) openModal(dayNum);
+          return;
+        }
       }
       el = el.parentElement;
     }
@@ -1143,6 +1351,43 @@ function renderCards() {
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' || e.keyCode === 27) closeModalDirect();
   });
+
+  // ============ 欢迎覆盖层 ============
+  (function() {
+    // 已看过则跳过
+    if (localStorage.getItem('lotso_welcome_done')) return;
+
+    var overlay = document.getElementById('welcomeOverlay');
+    if (!overlay) return;
+
+    // 生成闪烁小元素
+    var sparklesEl = document.getElementById('welcomeSparkles');
+    if (sparklesEl) {
+      var sparkleIcons = ['🍓','✨','💖','⭐','🌸'];
+      for (var si = 0; si < 18; si++) {
+        var s = document.createElement('span');
+        s.className = 'welcome-sparkle';
+        s.textContent = sparkleIcons[Math.floor(Math.random() * sparkleIcons.length)];
+        s.style.left = Math.random() * 100 + '%';
+        s.style.top = Math.random() * 100 + '%';
+        s.style.animationDelay = Math.random() * 3 + 's';
+        s.style.fontSize = (14 + Math.random() * 22) + 'px';
+        sparklesEl.appendChild(s);
+      }
+    }
+
+    function dismiss() {
+      overlay.classList.add('fadeout');
+      localStorage.setItem('lotso_welcome_done', '1');
+      setTimeout(function() {
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, 800);
+    }
+
+    overlay.addEventListener('click', dismiss);
+    // 4秒后自动消失
+    setTimeout(dismiss, 4000);
+  })();
 })();
 </script>
 </body>
