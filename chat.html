@@ -24,98 +24,60 @@ body {
 }
 .chat-header .back { color: #fff; text-decoration: none; font-size: 1.2rem; }
 .chat-header h4 { font-size: 1rem; font-weight: 800; flex:1; }
-#status {
+.status {
   flex: 1; display: flex; align-items: center; justify-content: center;
-  flex-direction: column; color: #A04868; font-size: 0.95rem; gap: 8px;
+  flex-direction: column; color: #A04868; gap: 12px;
 }
 </style>
 </head>
 <body>
 <div class="chat-header">
-  <a href="/" class="back">←</a>
+  <a href="index.html" class="back">←</a>
   <h4>🧸 地瓜老大 · AI顾问</h4>
   <span style="font-size:0.75rem;opacity:0.7;">嘴替小张</span>
 </div>
-<div id="status">
-  <div style="font-size:2rem;">🧸</div>
-  <div>正在连接地瓜老大...</div>
+<div class="status" id="status">
+  <div style="font-size:3rem;">🧸</div>
+  <div style="font-size:1rem;font-weight:700;">点击右下角按钮，开始对话</div>
 </div>
 
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
 <script>
-var statusEl = document.getElementById('status');
-var sdkInit = false;
-
-setTimeout(function() {
-  if (!sdkInit) {
-    statusEl.innerHTML = '<div style="font-size:1.5rem;">⚠️</div><div>连接超时</div><div style="font-size:0.8rem;opacity:0.7;">请刷新重试</div>';
+new CozeWebSDK.WebChatClient({
+  config: {
+    type: 'bot',
+    bot_id: '7648684933334319130',
+    isIframe: false,
+  },
+  auth: {
+    type: 'token',
+    token: 'cztei_lvRysALxVoEEMSIVVRMfv1KjQkCe3yhKV8sryYm3u1oY0hNtnV2Av0MR5liUJF4JW',
+    onRefreshToken: function () {
+      return 'cztei_lvRysALxVoEEMSIVVRMfv1KjQkCe3yhKV8sryYm3u1oY0hNtnV2Av0MR5liUJF4JW'
+    }
+  },
+  userInfo: {
+    id: 'user',
+    url: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/coze-logo.png',
+    nickname: '嘴替小张',
+  },
+  ui: {
+    base: {
+      icon: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/chatsdk-logo.png',
+      layout: 'pc',
+      lang: 'zh-CN',
+      zIndex: 1000
+    },
+    asstBtn: { isNeed: true },
+    chatBot: {
+      title: '地瓜老大 · AI顾问',
+      uploadable: true,
+      width: 390,
+    },
+    header: { isShow: true, isNeedClose: true },
+    footer: { isShow: false }
   }
-}, 10000);
-
-function initChat() {
-  try {
-    sdkInit = true;
-
-    // 先试 iframe 嵌入模式
-    new CozeWebSDK.WebChatClient({
-      config: {
-        type: 'bot',
-        bot_id: '7648684933334319130',
-        isIframe: true,
-      },
-      auth: {
-        type: 'token',
-        token: 'cztei_lvRysALxVoEEMSIVVRMfv1KjQkCe3yhKV8sryYm3u1oY0hNtnV2Av0MR5liUJF4JW',
-        onRefreshToken: function () {
-          return 'cztei_lvRysALxVoEEMSIVVRMfv1KjQkCe3yhKV8sryYm3u1oY0hNtnV2Av0MR5liUJF4JW'
-        }
-      },
-      userInfo: {
-        id: 'user',
-        url: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/coze-logo.png',
-        nickname: '嘴替小张',
-      },
-      ui: {
-        base: {
-          icon: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/chatsdk-logo.png',
-          layout: 'pc',
-          lang: 'zh-CN',
-          zIndex: 1000
-        },
-        asstBtn: { isNeed: true },
-        header: { isShow: false },
-        footer: { isShow: false }
-      }
-    });
-
-    // 检测 iframe 是否被 SDK 创建并插入
-    var checkCount = 0;
-    var checkIframe = setInterval(function() {
-      checkCount++;
-      var iframes = document.querySelectorAll('iframe');
-      for (var i = 0; i < iframes.length; i++) {
-        var src = iframes[i].src || '';
-        if (src.indexOf('coze') > -1) {
-          iframes[i].style.display = 'block';
-          iframes[i].style.flex = '1';
-          iframes[i].style.width = '100%';
-          iframes[i].style.height = '100%';
-          iframes[i].style.border = 'none';
-          statusEl.style.display = 'none';
-          clearInterval(checkIframe);
-          return;
-        }
-      }
-      if (checkCount > 20) {
-        clearInterval(checkIframe);
-        // iframe 模式不支持，回退到浮动按钮
-        statusEl.innerHTML = '<div style="font-size:2rem;">🧸</div><div>点击右下角按钮</div><div style="font-size:0.8rem;opacity:0.7;">开始对话</div>';
-      }
-    }, 500);
-  } catch(e) {
-    if (statusEl) statusEl.innerHTML = '<div>⚠️</div><div>初始化失败</div><div style="font-size:0.8rem;opacity:0.7;">' + e.message + '</div>';
-  }
-}
+});
 </script>
-<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js" onload="initChat()" onerror="statusEl.innerHTML='<div>⚠️</div><div>SDK加载失败</div><div style=font-size:0.8rem;opacity:0.7;>CDN不可达，请刷新</div>'"></script>
 </body>
 </html>
