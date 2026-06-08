@@ -1089,8 +1089,8 @@ body::before {
   opacity: 0.5;
 }
 
-/* ============ AI 顾问浮动按钮 ============ */
-.ai-fab {
+/* ============ AI 聊天窗 ============ */
+.chat-btn {
   position: fixed; bottom: 28px; right: 28px; z-index: 9998;
   width: 58px; height: 58px;
   border-radius: 50%;
@@ -1102,26 +1102,98 @@ body::before {
   box-shadow: 0 6px 24px var(--toy-shadow-lg);
   display: flex; align-items: center; justify-content: center;
   transition: transform 0.3s;
-  animation: aiFabPulse 3s ease-in-out infinite;
-  text-decoration: none;
+  animation: chatBtnPulse 3s ease-in-out infinite;
 }
-.ai-fab:hover { transform: scale(1.15); }
-.ai-fab-tip {
-  position: fixed; bottom: 92px; right: 24px; z-index: 9998;
-  background: var(--text); color: var(--vintage-cream);
-  padding: 5px 12px;
-  border-radius: 12px;
-  font-size: 0.75rem; font-weight: 700;
-  pointer-events: none;
-  white-space: nowrap;
-}
-@keyframes aiFabPulse {
+.chat-btn:hover { transform: scale(1.15); }
+.chat-btn.hidden { display: none; }
+@keyframes chatBtnPulse {
   0%,100% { box-shadow: 0 6px 24px var(--toy-shadow-lg); }
   50% { box-shadow: 0 6px 40px rgba(192,96,128,0.55); }
 }
+
+.chat-panel {
+  position: fixed; bottom: 96px; right: 28px; z-index: 9999;
+  width: 380px; max-height: 520px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 16px 48px rgba(62,26,46,0.25);
+  display: none; flex-direction: column;
+  overflow: hidden;
+  border: 3px solid #F8E0EA;
+}
+.chat-panel.open { display: flex; }
+.chat-header {
+  background: linear-gradient(135deg, var(--lotso-fur-deep), var(--lotso-fur));
+  color: #fff; padding: 12px 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px; flex-shrink: 0;
+}
+.chat-header h4 { font-size: 0.9rem; font-weight: 800; }
+.chat-close {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: none; background: rgba(255,255,255,0.2);
+  color: #fff; font-size: 0.9rem; cursor: pointer;
+}
+.chat-body {
+  flex: 1; overflow-y: auto;
+  padding: 14px; display: flex; flex-direction: column; gap: 10px;
+  min-height: 200px; max-height: 320px;
+  background: linear-gradient(180deg, #FFF8EC, #FDF0F4);
+}
+.chat-msg {
+  max-width: 85%; padding: 10px 14px;
+  border-radius: 16px; font-size: 0.82rem;
+  line-height: 1.6; word-break: break-word;
+  animation: msgIn 0.3s ease-out;
+}
+.chat-msg.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--lotso-fur), var(--lotso-fur-deep));
+  color: #fff; border-bottom-right-radius: 4px;
+}
+.chat-msg.bot {
+  align-self: flex-start;
+  background: #fff; border: 1.5px solid #F8E0EA;
+  border-bottom-left-radius: 4px; color: var(--text);
+}
+.chat-typing {
+  align-self: flex-start; display: flex; gap: 4px;
+  padding: 10px 14px; background: #fff; border-radius: 16px;
+  border: 1.5px solid #F8E0EA;
+}
+.chat-typing span {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--lotso-fur-light);
+  animation: dotBounce 1.2s infinite;
+}
+.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotBounce {
+  0%,60%,100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+@keyframes msgIn { from { opacity: 0; transform: translateY(8px); } }
+
+.chat-input-wrap {
+  display: flex; gap: 8px; padding: 10px 14px;
+  border-top: 1px solid #F8E0EA; background: #fff; flex-shrink: 0;
+}
+.chat-input-wrap input {
+  flex: 1; border: 2px solid #F8E0EA;
+  border-radius: 20px; padding: 8px 14px;
+  font-size: 0.82rem; outline: none; font-family: inherit;
+}
+.chat-input-wrap input:focus { border-color: var(--lotso-fur-light); }
+.chat-input-wrap button {
+  width: 36px; height: 36px; border-radius: 50%; border: none;
+  background: linear-gradient(135deg, var(--lotso-fur), var(--lotso-fur-deep));
+  color: #fff; font-size: 1rem; cursor: pointer; flex-shrink: 0;
+}
+.chat-input-wrap button:disabled { opacity: 0.5; }
+
 @media (max-width: 768px) {
-  .ai-fab { bottom: 20px; right: 16px; width: 50px; height: 50px; font-size: 1.3rem; }
-  .ai-fab-tip { bottom: 80px; right: 12px; }
+  .chat-btn { bottom: 20px; right: 16px; width: 50px; height: 50px; font-size: 1.3rem; }
+  .chat-panel { bottom: 80px; right: 8px; left: 8px; width: auto; max-height: 60vh; }
 }
 </style>
 </head>
@@ -1648,7 +1720,129 @@ function renderCards() {
 
 })();
 </script>
-<!-- Coze 占位 — 先确认页面正常，再搞聊天 -->
+<!-- AI 聊天窗 -->
+<button class="chat-btn" id="chatBtn" title="地瓜老大 · AI商业顾问">🧸</button>
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-header">
+    <h4>🧸 地瓜老大 · AI顾问</h4>
+    <button class="chat-close" id="chatClose">✕</button>
+  </div>
+  <div class="chat-body" id="chatBody">
+    <div class="chat-msg bot">我是地瓜老大，嘴替小张的AI商业顾问。<br>商业问题、内容困惑、执行卡点——直接说。</div>
+  </div>
+  <div class="chat-input-wrap">
+    <input type="text" id="chatInput" placeholder="输入你的问题..." maxlength="500">
+    <button id="chatSend">➤</button>
+  </div>
+</div>
+<script>
+(function() {
+  var TOKEN = 'cztei_lvHpBzwruU9uIkoY6F2hLCpzRABFXBYC80ouYmuWsssmeY1nMXzN9piYrk5hZUkM2';
+  var BOT_ID = '7648684933334319130';
+  var API_URL = 'https://api.coze.cn/v3/chat';
+  var userId = localStorage.getItem('coze_uid');
+  if (!userId) { userId = 'u_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9); localStorage.setItem('coze_uid', userId); }
+
+  var btn = document.getElementById('chatBtn');
+  var panel = document.getElementById('chatPanel');
+  var bodyEl = document.getElementById('chatBody');
+  var input = document.getElementById('chatInput');
+  var sendBtnEl = document.getElementById('chatSend');
+  if (!btn || !panel) return;
+
+  var isOpen = false, isLoading = false;
+
+  btn.addEventListener('click', function() {
+    isOpen = !isOpen;
+    panel.classList.toggle('open', isOpen);
+    btn.classList.toggle('hidden', isOpen);
+    if (isOpen) { input.focus(); bodyEl.scrollTop = bodyEl.scrollHeight; }
+  });
+  document.getElementById('chatClose').addEventListener('click', function() {
+    isOpen = false; panel.classList.remove('open'); btn.classList.remove('hidden');
+  });
+
+  function addMsg(text, role) {
+    var div = document.createElement('div');
+    div.className = 'chat-msg ' + role;
+    div.textContent = text;
+    bodyEl.appendChild(div);
+    bodyEl.scrollTop = bodyEl.scrollHeight;
+    return div;
+  }
+
+  function showTyping() {
+    var div = document.createElement('div');
+    div.className = 'chat-typing';
+    div.id = 'typingIndicator';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    bodyEl.appendChild(div);
+    bodyEl.scrollTop = bodyEl.scrollHeight;
+  }
+
+  function hideTyping() {
+    var el = document.getElementById('typingIndicator');
+    if (el) el.remove();
+  }
+
+  async function send() {
+    var text = input.value.trim();
+    if (!text || isLoading) return;
+    input.value = ''; isLoading = true; sendBtnEl.disabled = true;
+    addMsg(text, 'user'); showTyping();
+
+    try {
+      var resp = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN },
+        body: JSON.stringify({
+          bot_id: BOT_ID, user_id: userId, stream: true, auto_save_history: true,
+          additional_messages: [{ role: 'user', content: text, content_type: 'text' }]
+        })
+      });
+      if (!resp.ok) {
+        var errData = null;
+        try { errData = await resp.json(); } catch(e) {}
+        throw new Error(errData?.msg || errData?.message || 'HTTP ' + resp.status);
+      }
+
+      hideTyping();
+      var botMsg = addMsg('', 'bot');
+      var reader = resp.body.getReader();
+      var decoder = new TextDecoder('utf-8');
+      var buffer = '';
+
+      while (true) {
+        var r = await reader.read();
+        if (r.done) break;
+        buffer += decoder.decode(r.value, { stream: true });
+        var lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (!line || line.indexOf('data:') !== 0) continue;
+          try {
+            var d = JSON.parse(line.substring(5).trim());
+            if (d.content) { botMsg.textContent += d.content; bodyEl.scrollTop = bodyEl.scrollHeight; }
+          } catch(e) {}
+        }
+      }
+      if (!botMsg.textContent) botMsg.textContent = '(未收到回复)';
+    } catch(e) {
+      hideTyping();
+      addMsg('抱歉，出了点问题：' + e.message, 'bot');
+      console.error('Chat err:', e);
+    }
+    isLoading = false; sendBtnEl.disabled = false;
+    input.focus(); bodyEl.scrollTop = bodyEl.scrollHeight;
+  }
+
+  sendBtnEl.addEventListener('click', send);
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  });
+})();
+</script>
 
 </body>
 </html>
