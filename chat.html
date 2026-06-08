@@ -163,7 +163,7 @@ body {
       if (!resp.ok) {
         var errText = '';
         try { var ed = await resp.json(); errText = ed.msg || ed.message || JSON.stringify(ed); } catch(e) { errText = await resp.text(); }
-        console.error('Coze error:', errText);
+        console.error('Coze HTTP error:', errText);
         throw new Error(errText || 'HTTP ' + resp.status);
       }
 
@@ -194,6 +194,10 @@ body {
 
           try {
             var d = JSON.parse(jsonStr);
+            // Coze API 业务错误：code 不为 0 表示失败
+            if (d.code && d.code !== 0) {
+              throw new Error(d.msg || d.message || ('Coze错误 code=' + d.code));
+            }
             // Coze v3 返回多种格式，逐一尝试提取 content
             var content = d.content
               || (d.data && d.data.content)
@@ -204,12 +208,25 @@ body {
               botMsg.textContent += content;
               bodyEl.scrollTop = bodyEl.scrollHeight;
             }
-          } catch(e) { console.log('SSE parse skip:', jsonStr.substring(0, 80)); }
+          } catch(e) {
+            if (e.message && e.message.indexOf('Coze错误') === 0) throw e;
+            console.log('SSE parse skip:', jsonStr.substring(0, 80));
+          }
         }
       }
 
       if (!botMsg.textContent) {
-        console.log('No content extracted. Raw chunks:', rawChunks.join('').substring(0, 500));
+        // 尝试从原始响应中检测 Coze 业务错误（非 SSE 格式的 JSON 错误）
+        var raw = rawChunks.join('');
+        try {
+          var rawJson = JSON.parse(raw);
+          if (rawJson.code && rawJson.code !== 0) {
+            throw new Error(rawJson.msg || rawJson.message || ('Coze错误 code=' + rawJson.code));
+          }
+        } catch(e) {
+          if (e.message && (e.message.indexOf('Coze错误') === 0 || e.message.indexOf('token') > -1 || e.message.indexOf('Bearer') > -1)) throw e;
+        }
+        console.log('No content extracted. Raw chunks:', raw.substring(0, 500));
         botMsg.textContent = '(未收到回复 · 查看浏览器控制台日志)';
       }
     } catch(e) {
