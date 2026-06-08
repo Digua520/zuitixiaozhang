@@ -177,14 +177,21 @@ body {
         buffer = lines.pop() || '';
         for (var i = 0; i < lines.length; i++) {
           var line = lines[i].trim();
-          if (!line || line.indexOf('data:') !== 0) continue;
+          if (!line) continue;
+          // 跳过事件类型行
+          if (line.indexOf('event:') === 0) continue;
+          if (line.indexOf('data:') !== 0) continue;
+          var jsonStr = line.substring(5).trim();
+          if (!jsonStr || jsonStr === '[DONE]') continue;
           try {
-            var d = JSON.parse(line.substring(5).trim());
-            if (d.content) { botMsg.textContent += d.content; bodyEl.scrollTop = bodyEl.scrollHeight; }
+            var d = JSON.parse(jsonStr);
+            // 适配 Coze v3 多种响应格式
+            var content = d.content || (d.data && d.data.content) || (d.message && d.message.content) || '';
+            if (content) { botMsg.textContent += content; bodyEl.scrollTop = bodyEl.scrollHeight; }
           } catch(e) {}
         }
       }
-      if (!botMsg.textContent) botMsg.textContent = '(未收到回复)';
+      if (!botMsg.textContent) botMsg.textContent = '(未收到回复 · 请检查 Coze Bot 是否在线)';
     } catch(e) {
       hideTyping();
       addMsg('网络错误：' + e.message, 'bot');
