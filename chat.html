@@ -70,21 +70,36 @@ function initChat() {
     errEl.style.display = 'none';
     new CozeWebSDK.WebChatClient({
       config: {
+        type: 'bot',
         bot_id: '7648684933334319130',
-      },
-      componentProps: {
-        title: '地瓜老大',
+        isIframe: false,
       },
       auth: {
         type: 'token',
-        token: 'cztei_lB0ZL5GNJh8wS6AXyGEVdzycxn1Bn0a3sz2S2IexozJt7t691Fghm9vIWC5QjHLoI',
+        token: 'cztei_lvRysALxVoEEMSIVVRMfv1KjQkCe3yhKV8sryYm3u1oY0hNtnV2Av0MR5liUJF4JW',
         onRefreshToken: function () {
-          return 'cztei_lB0ZL5GNJh8wS6AXyGEVdzycxn1Bn0a3sz2S2IexozJt7t691Fghm9vIWC5QjHLoI'
+          return 'cztei_lvRysALxVoEEMSIVVRMfv1KjQkCe3yhKV8sryYm3u1oY0hNtnV2Av0MR5liUJF4JW'
         }
       },
+      userInfo: {
+        id: 'user',
+        url: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/coze-logo.png',
+        nickname: '嘴替小张',
+      },
       ui: {
+        base: {
+          icon: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/chatsdk-logo.png',
+          layout: 'pc',
+          lang: 'zh-CN',
+          zIndex: 1000
+        },
         asstBtn: { isNeed: false },
-        chatBot: { el: chatEl },
+        chatBot: {
+          el: chatEl,
+          title: '地瓜老大 · AI顾问',
+          uploadable: true,
+          width: 390,
+        },
         header: { isShow: false },
         footer: { isShow: false }
       }
