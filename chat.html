@@ -27,6 +27,11 @@ body {
   display: flex; align-items: center;
 }
 .chat-header h4 { font-size: 1rem; font-weight: 800; flex:1; }
+#chat-box {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
 </style>
 </head>
 <body>
@@ -35,12 +40,15 @@ body {
   <h4>🧸 地瓜老大 · AI顾问</h4>
   <span style="font-size:0.75rem;opacity:0.7;">嘴替小张</span>
 </div>
-<div id="sdk-status" style="flex:1;display:flex;align-items:center;justify-content:center;color:#A04868;font-size:0.9rem;flex-direction:column;">
-  <div style="font-size:2rem;margin-bottom:8px;">🧸</div>
-  <div>地瓜老大来了...</div>
+<div id="chat-box">
+  <div id="sdk-status" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#A04868;font-size:0.9rem;flex-direction:column;">
+    <div style="font-size:2rem;margin-bottom:8px;">🧸</div>
+    <div>地瓜老大来了...</div>
+  </div>
 </div>
 
 <script>
+var chatBox = document.getElementById('chat-box');
 var statusEl = document.getElementById('sdk-status');
 var sdkLoaded = false;
 
@@ -81,11 +89,12 @@ function initChat() {
         },
         asstBtn: { isNeed: true },
         chatBot: {
+          el: chatBox,
           title: '地瓜老大 · AI顾问',
           uploadable: true,
           width: 390,
         },
-        header: { isShow: true, isNeedClose: true },
+        header: { isShow: false },
         footer: { isShow: false }
       }
     });
