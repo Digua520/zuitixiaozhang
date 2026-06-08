@@ -787,12 +787,9 @@ body::before {
   position: fixed; top:0; left:0; width:100%; height:100%;
   background: linear-gradient(160deg, #FFF8EC 0%, #FDF0F4 40%, #F8E0EA 60%, #FFF8EC 100%);
   z-index: 9999;
-  display: none; align-items: center; justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   flex-direction: column;
   cursor: pointer;
-}
-.welcome-overlay.visible {
-  display: flex;
   animation: welcomeFadeIn 0.5s ease;
 }
 @keyframes welcomeFadeIn {
@@ -1129,13 +1126,6 @@ body::before {
 </style>
 </head>
 <body>
-
-<noscript>
-  <div style="position:fixed;top:0;left:0;width:100%;height:100%;background:#FFF8EC;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:99999;font-family:sans-serif;">
-    <h2 style="color:#A04868;">请启用 JavaScript</h2>
-    <p style="color:#6D4C5E;">本页面需要 JavaScript 支持，请在浏览器设置中启用后刷新。</p>
-  </div>
-</noscript>
 
 <!-- 欢迎覆盖层 -->
 <div class="welcome-overlay" id="welcomeOverlay">
@@ -1627,9 +1617,6 @@ function renderCards() {
       return;
     }
 
-    // 由 JS 控制显示（CSS 默认 display:none，防止 JS 失败时遮挡页面）
-    overlay.classList.add('visible');
-
     // 生成闪烁小元素
     var sparklesEl = document.getElementById('welcomeSparkles');
     if (sparklesEl) {
@@ -1647,7 +1634,6 @@ function renderCards() {
     }
 
     function dismiss() {
-      overlay.classList.remove('visible');
       overlay.classList.add('fadeout');
       localStorage.setItem('lotso_welcome_done', '1');
       setTimeout(function() {
