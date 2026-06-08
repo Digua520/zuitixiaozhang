@@ -27,10 +27,6 @@ body {
   display: flex; align-items: center;
 }
 .chat-header h4 { font-size: 1rem; font-weight: 800; flex:1; }
-#coze-chat {
-  flex: 1;
-  overflow: hidden;
-}
 </style>
 </head>
 <body>
@@ -39,35 +35,25 @@ body {
   <h4>🧸 地瓜老大 · AI顾问</h4>
   <span style="font-size:0.75rem;opacity:0.7;">嘴替小张</span>
 </div>
-<div id="coze-chat" style="position:relative;">
-  <div id="chat-loading" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;color:#A04868;font-size:0.9rem;">
-    <div style="font-size:2rem;margin-bottom:8px;">🧸</div>
-    <div>地瓜老大来了...</div>
-  </div>
+<div id="sdk-status" style="flex:1;display:flex;align-items:center;justify-content:center;color:#A04868;font-size:0.9rem;flex-direction:column;">
+  <div style="font-size:2rem;margin-bottom:8px;">🧸</div>
+  <div>地瓜老大来了...</div>
 </div>
-<div id="sdk-error" style="display:none;padding:20px;text-align:center;color:#A04868;"></div>
 
 <script>
-var chatEl = document.getElementById('coze-chat');
-var errEl = document.getElementById('sdk-error');
+var statusEl = document.getElementById('sdk-status');
 var sdkLoaded = false;
 
-// 5秒超时检测
 setTimeout(function() {
   if (!sdkLoaded) {
-    var loadingEl = document.getElementById('chat-loading');
-    if (loadingEl) loadingEl.style.display = 'none';
-    errEl.style.display = 'block';
-    errEl.innerHTML = '<p style="font-size:1.2rem;">⚠️</p><p>聊天组件加载超时</p><p style="font-size:0.8rem;opacity:0.7;">请检查网络或刷新重试</p>';
+    statusEl.innerHTML = '<p style="font-size:1.2rem;">⚠️</p><p>聊天组件加载超时</p><p style="font-size:0.8rem;opacity:0.7;">请检查网络或刷新重试</p>';
   }
 }, 5000);
 
 function initChat() {
   try {
     sdkLoaded = true;
-    var loadingEl = document.getElementById('chat-loading');
-    if (loadingEl) loadingEl.style.display = 'none';
-    errEl.style.display = 'none';
+    if (statusEl) statusEl.style.display = 'none';
     new CozeWebSDK.WebChatClient({
       config: {
         type: 'bot',
@@ -93,23 +79,21 @@ function initChat() {
           lang: 'zh-CN',
           zIndex: 1000
         },
-        asstBtn: { isNeed: false },
+        asstBtn: { isNeed: true },
         chatBot: {
-          el: chatEl,
           title: '地瓜老大 · AI顾问',
           uploadable: true,
           width: 390,
         },
-        header: { isShow: false },
+        header: { isShow: true, isNeedClose: true },
         footer: { isShow: false }
       }
     });
   } catch(e) {
-    errEl.style.display = 'block';
-    errEl.innerHTML = '<p>聊天组件初始化失败</p><p style="font-size:0.8rem;opacity:0.7;">' + e.message + '</p>';
+    if (statusEl) { statusEl.style.display = 'flex'; statusEl.innerHTML = '<p>聊天组件初始化失败</p><p style="font-size:0.8rem;opacity:0.7;">' + e.message + '</p>'; }
   }
 }
 </script>
-<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js" onload="initChat()" onerror="var l=document.getElementById('chat-loading');if(l)l.style.display='none';errEl.style.display='block';errEl.innerHTML='<p>聊天组件加载失败</p><p style=font-size:0.8rem;opacity:0.7;>SDK CDN 不可达</p>'"></script>
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js" onload="initChat()" onerror="if(statusEl){statusEl.style.display='flex';statusEl.innerHTML='<p>聊天组件加载失败</p><p style=font-size:0.8rem;opacity:0.7;>SDK CDN 不可达</p>'}"></script>
 </body>
 </html>
