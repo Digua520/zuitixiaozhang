@@ -40,30 +40,54 @@ body {
   <span style="font-size:0.75rem;opacity:0.7;">嘴替小张</span>
 </div>
 <div id="coze-chat"></div>
+<div id="sdk-error" style="display:none;padding:20px;text-align:center;color:#A04868;">
+  <p>聊天组件加载中...</p>
+</div>
 
-<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
 <script>
-new CozeWebSDK.WebChatClient({
-  config: {
-    bot_id: '7648684933334319130',
-  },
-  componentProps: {
-    title: '地瓜老大',
-  },
-  auth: {
-    type: 'token',
-    token: 'cztei_lB0ZL5GNJh8wS6AXyGEVdzycxn1Bn0a3sz2S2IexozJt7t691Fghm9vIWC5QjHLoI',
-    onRefreshToken: function () {
-      return 'cztei_lB0ZL5GNJh8wS6AXyGEVdzycxn1Bn0a3sz2S2IexozJt7t691Fghm9vIWC5QjHLoI'
-    }
-  },
-  ui: {
-    asstBtn: { isNeed: false },
-    chatBot: { el: document.getElementById('coze-chat') },
-    header: { isShow: false },
-    footer: { isShow: false }
+var chatEl = document.getElementById('coze-chat');
+var errEl = document.getElementById('sdk-error');
+var sdkLoaded = false;
+
+// 3秒超时检测
+setTimeout(function() {
+  if (!sdkLoaded) {
+    errEl.style.display = 'block';
+    errEl.innerHTML = '<p style="font-size:1.2rem;">⚠️</p><p>聊天组件加载超时</p><p style="font-size:0.8rem;opacity:0.7;">请检查网络或刷新重试</p>';
   }
-});
+}, 5000);
+
+function initChat() {
+  try {
+    sdkLoaded = true;
+    errEl.style.display = 'none';
+    new CozeWebSDK.WebChatClient({
+      config: {
+        bot_id: '7648684933334319130',
+      },
+      componentProps: {
+        title: '地瓜老大',
+      },
+      auth: {
+        type: 'token',
+        token: 'cztei_lB0ZL5GNJh8wS6AXyGEVdzycxn1Bn0a3sz2S2IexozJt7t691Fghm9vIWC5QjHLoI',
+        onRefreshToken: function () {
+          return 'cztei_lB0ZL5GNJh8wS6AXyGEVdzycxn1Bn0a3sz2S2IexozJt7t691Fghm9vIWC5QjHLoI'
+        }
+      },
+      ui: {
+        asstBtn: { isNeed: false },
+        chatBot: { el: chatEl },
+        header: { isShow: false },
+        footer: { isShow: false }
+      }
+    });
+  } catch(e) {
+    errEl.style.display = 'block';
+    errEl.innerHTML = '<p>聊天组件初始化失败</p><p style="font-size:0.8rem;opacity:0.7;">' + e.message + '</p>';
+  }
+}
 </script>
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js" onload="initChat()" onerror="errEl.style.display='block';errEl.innerHTML='<p>聊天组件加载失败</p><p style=font-size:0.8rem;opacity:0.7;>SDK CDN 不可达</p>'"></script>
 </body>
 </html>
