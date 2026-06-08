@@ -1648,26 +1648,31 @@ function renderCards() {
 
 })();
 </script>
-<!-- Coze Chat SDK -->
-<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
+<!-- Coze Chat SDK — 异步加载，不阻塞页面渲染 -->
 <script>
 (function() {
-  try {
-    new CozeWebSDK.WebChatClient({
-      config: { bot_id: '7648684933334319130' },
-      auth: {
-        type: 'token',
-        token: 'cztei_lvHpBzwruU9uIkoY6F2hLCpzRABFXBYC80ouYmuWsssmeY1nMXzN9piYrk5hZUkM2',
-        onRefreshToken: async () => 'cztei_lvHpBzwruU9uIkoY6F2hLCpzRABFXBYC80ouYmuWsssmeY1nMXzN9piYrk5hZUkM2'
-      },
-      ui: {
-        base: { lang: 'zh-CN', zIndex: 9998 },
-        asstBtn: { isNeed: true },
-        header: { isShow: true },
-        chatBot: { title: '🧸 地瓜老大 · AI顾问' }
-      }
-    });
-  } catch(e) { console.error('Coze:', e); }
+  var s = document.createElement('script');
+  s.src = 'https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js';
+  s.onload = function() {
+    try {
+      new CozeWebSDK.WebChatClient({
+        config: { bot_id: '7648684933334319130' },
+        auth: {
+          type: 'token',
+          token: 'cztei_lvHpBzwruU9uIkoY6F2hLCpzRABFXBYC80ouYmuWsssmeY1nMXzN9piYrk5hZUkM2',
+          onRefreshToken: async () => 'cztei_lvHpBzwruU9uIkoY6F2hLCpzRABFXBYC80ouYmuWsssmeY1nMXzN9piYrk5hZUkM2'
+        },
+        ui: {
+          base: { lang: 'zh-CN', zIndex: 9998 },
+          asstBtn: { isNeed: true },
+          header: { isShow: true },
+          chatBot: { title: '🧸 地瓜老大 · AI顾问' }
+        }
+      });
+    } catch(e) { console.error('Coze:', e); }
+  };
+  s.onerror = function() { console.error('Coze SDK 加载失败'); };
+  document.head.appendChild(s);
 })();
 </script>
 
