@@ -1089,25 +1089,25 @@ body::before {
   opacity: 0.5;
 }
 
-/* ============ AI 顾问浮动按钮 ============ */
-.ai-fab {
-  position: fixed; bottom: 28px; right: 28px; z-index: 10000;
+/* ============ AI 顾问浮动按钮（视觉覆盖层，点击穿透到 Coze 按钮） ============ */
+.ai-fab-zone {
+  position: fixed; bottom: 28px; right: 28px; z-index: 10001;
+  display: flex; flex-direction: column; align-items: center;
+  pointer-events: none;
+}
+.ai-fab-visual {
   width: 58px; height: 58px;
   border-radius: 50%;
   background: linear-gradient(135deg, var(--lotso-fur), var(--lotso-fur-deep));
   color: #fff;
   border: 3px solid var(--lotso-belly);
   font-size: 1.6rem;
-  cursor: pointer;
-  box-shadow: 0 6px 24px var(--toy-shadow-lg);
   display: flex; align-items: center; justify-content: center;
-  transition: transform 0.3s;
+  box-shadow: 0 6px 24px var(--toy-shadow-lg);
   animation: aiFabPulse 3s ease-in-out infinite;
-  text-decoration: none;
 }
-.ai-fab:hover { transform: scale(1.15); }
 .ai-fab-tip {
-  position: fixed; bottom: 92px; right: 24px; z-index: 10000;
+  position: fixed; bottom: 92px; right: 24px; z-index: 10001;
   background: var(--text); color: var(--vintage-cream);
   padding: 5px 12px;
   border-radius: 12px;
@@ -1120,7 +1120,8 @@ body::before {
   50% { box-shadow: 0 6px 40px rgba(192,96,128,0.55); }
 }
 @media (max-width: 768px) {
-  .ai-fab { bottom: 20px; right: 16px; width: 50px; height: 50px; font-size: 1.3rem; }
+  .ai-fab-zone { bottom: 20px; right: 16px; }
+  .ai-fab-visual { width: 50px; height: 50px; font-size: 1.3rem; }
   .ai-fab-tip { bottom: 80px; right: 12px; }
 }
 </style>
@@ -1645,39 +1646,17 @@ function renderCards() {
 
 })();
 </script>
-<!-- AI 顾问入口 -->
-<a href="javascript:void(0)" class="ai-fab" id="aiFab" title="地瓜老大 · AI商业顾问">🧸</a>
+<!-- AI 顾问入口（视觉覆盖层，pointer-events:none 让点击穿透到 Coze 按钮） -->
+<div class="ai-fab-zone">
+  <div class="ai-fab-visual">🧸</div>
+</div>
 <span class="ai-fab-tip">🍓 问地瓜老大</span>
 
 <!-- Coze SDK -->
 <script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
 <script>
 (function() {
-  var aiFab = document.getElementById('aiFab');
-  if (!aiFab) return;
-
-  aiFab.addEventListener('click', function(e) {
-    e.preventDefault();
-    // 找 Coze 浮动按钮并点击
-    var all = document.querySelectorAll('[class*="assistant"], [class*="coze"], div');
-    for (var i = 0; i < all.length; i++) {
-      var c = all[i].getAttribute('class') || '';
-      if (c.indexOf('assistant') > -1) { all[i].click(); return; }
-    }
-    // 如果还没加载好，等待后重试
-    var tries = 0;
-    var timer = setInterval(function() {
-      tries++;
-      var all2 = document.querySelectorAll('[class*="assistant"], [class*="coze"], div');
-      for (var j = 0; j < all2.length; j++) {
-        var c2 = all2[j].getAttribute('class') || '';
-        if (c2.indexOf('assistant') > -1) { all2[j].click(); clearInterval(timer); return; }
-      }
-      if (tries > 20) clearInterval(timer);
-    }, 300);
-  });
-
-  new CozeWebSDK.WebChatClient({
+  var client = new CozeWebSDK.WebChatClient({
     config: { bot_id: '7648684933334319130' },
     componentProps: { title: '地瓜老大' },
     auth: {
@@ -1688,21 +1667,27 @@ function renderCards() {
       }
     }
   });
+
+  // 延迟检测 Coze 按钮：把它移到我们视觉按钮下方，透明但可点击
+  setTimeout(function() {
+    var all = document.querySelectorAll('div, span, button');
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      var cls = (el.getAttribute('class') || '').toLowerCase();
+      var id = (el.getAttribute('id') || '').toLowerCase();
+      if (cls.indexOf('coze') > -1 || cls.indexOf('assistant') > -1 || id.indexOf('coze') > -1) {
+        el.style.position = 'fixed';
+        el.style.right = '28px';
+        el.style.bottom = '28px';
+        el.style.opacity = '0';
+        el.style.pointerEvents = 'auto';
+        el.style.zIndex = '9999';
+        console.log('🔧 Coze 按钮已定位并透明化:', cls || id);
+      }
+    }
+  }, 2000);
 })();
 </script>
-<style>
-/* Coze 浮动按钮缩小并放在我们按钮下面，不可见但可点击 */
-[class*="coze-assistant"] {
-  position: fixed !important;
-  right: 36px !important;
-  bottom: 36px !important;
-  width: 38px !important;
-  height: 38px !important;
-  z-index: 9999 !important;
-  opacity: 0 !important;
-  pointer-events: auto !important;
-}
-</style>
 
 </body>
 </html>
