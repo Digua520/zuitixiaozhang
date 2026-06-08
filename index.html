@@ -1648,9 +1648,28 @@ function renderCards() {
 
 })();
 </script>
-<!-- AI 顾问浮动按钮 → 打开 Coze Bot（在 Coze 后台"发布"页获取分享链接后替换 href） -->
-<a href="https://www.coze.cn/bot/7648684933334319130" target="_blank" rel="noopener" class="ai-fab" title="地瓜老大 · AI商业顾问">🧸</a>
-<span class="ai-fab-tip">🍓 问地瓜老大</span>
+<!-- Coze Chat SDK -->
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
+<script>
+(function() {
+  try {
+    new CozeWebSDK.WebChatClient({
+      config: { bot_id: '7648684933334319130' },
+      auth: {
+        type: 'token',
+        token: 'cztei_lvHpBzwruU9uIkoY6F2hLCpzRABFXBYC80ouYmuWsssmeY1nMXzN9piYrk5hZUkM2',
+        onRefreshToken: async () => 'cztei_lvHpBzwruU9uIkoY6F2hLCpzRABFXBYC80ouYmuWsssmeY1nMXzN9piYrk5hZUkM2'
+      },
+      ui: {
+        base: { lang: 'zh-CN', zIndex: 9998 },
+        asstBtn: { isNeed: true },
+        header: { isShow: true },
+        chatBot: { title: '🧸 地瓜老大 · AI顾问' }
+      }
+    });
+  } catch(e) { console.error('Coze:', e); }
+})();
+</script>
 
 </body>
 </html>
