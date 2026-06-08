@@ -1,3 +1,6 @@
 *.pyc
 __pycache__/
 *.docx
+node_modules/
+dbskill/
+.wrangler/

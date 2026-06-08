@@ -1,0 +1,8 @@
+name = "zuiti-diagnosis"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[[vars]]
+# 在 Cloudflare Dashboard 设置这个密钥：
+# wrangler secret put CLAUDE_API_KEY
+# 或者直接在 Dashboard → Workers → zuiti-diagnosis → Settings → Variables 添加
