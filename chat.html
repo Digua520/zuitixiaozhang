@@ -41,9 +41,15 @@ body {
   <div style="font-size:1rem;font-weight:700;">点击右下角按钮，开始对话</div>
 </div>
 
-<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js"></script>
 <script>
-new CozeWebSDK.WebChatClient({
+var statusEl = document.getElementById('status');
+</script>
+<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js" onerror="statusEl.innerHTML='<div style=font-size:2rem>⚠️</div><div>SDK加载失败</div><div style=font-size:0.8rem;opacity:0.7>CDN不可达，请刷新</div>'"></script>
+<script>
+if (typeof CozeWebSDK === 'undefined') {
+  statusEl.innerHTML = '<div style="font-size:2rem;">⚠️</div><div>SDK未加载</div><div style="font-size:0.8rem;opacity:0.7;">请刷新页面重试</div>';
+} else {
+  new CozeWebSDK.WebChatClient({
   config: {
     type: 'bot',
     bot_id: '7648684933334319130',
@@ -77,7 +83,8 @@ new CozeWebSDK.WebChatClient({
     header: { isShow: true, isNeedClose: true },
     footer: { isShow: false }
   }
-});
+  });
+}
 </script>
 </body>
 </html>
