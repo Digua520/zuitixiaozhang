@@ -1165,6 +1165,41 @@ body::before {
   <div class="welcome-hint">🍓 点击任意位置进入</div>
 </div>
 
+<!-- 欢迎覆盖层关闭逻辑：独立脚本块，不受主脚本错误影响 -->
+<script>
+(function() {
+  var overlay = document.getElementById('welcomeOverlay');
+  if (!overlay) return;
+  if (localStorage.getItem('lotso_welcome_done')) {
+    overlay.parentNode.removeChild(overlay);
+    return;
+  }
+  var sparklesEl = document.getElementById('welcomeSparkles');
+  if (sparklesEl) {
+    var icons = ['🍓','✨','💖','⭐','🌸'];
+    for (var i = 0; i < 18; i++) {
+      var s = document.createElement('span');
+      s.className = 'welcome-sparkle';
+      s.textContent = icons[Math.floor(Math.random() * icons.length)];
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top = Math.random() * 100 + '%';
+      s.style.animationDelay = Math.random() * 3 + 's';
+      s.style.fontSize = (14 + Math.random() * 22) + 'px';
+      sparklesEl.appendChild(s);
+    }
+  }
+  function dismiss() {
+    overlay.classList.add('fadeout');
+    localStorage.setItem('lotso_welcome_done', '1');
+    setTimeout(function() {
+      if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+    }, 800);
+  }
+  overlay.addEventListener('click', dismiss);
+  setTimeout(dismiss, 4000);
+})();
+</script>
+
 <!-- 飘落粒子 -->
 <div class="particles" id="particles"></div>
 
@@ -1606,45 +1641,7 @@ function renderCards() {
     if (e.key === 'Escape' || e.keyCode === 27) closeModalDirect();
   });
 
-  // ============ 欢迎覆盖层 ============
-  (function() {
-    var overlay = document.getElementById('welcomeOverlay');
-    if (!overlay) return;
-
-    // 已看过则直接移除 DOM，避免卡住
-    if (localStorage.getItem('lotso_welcome_done')) {
-      overlay.parentNode.removeChild(overlay);
-      return;
-    }
-
-    // 生成闪烁小元素
-    var sparklesEl = document.getElementById('welcomeSparkles');
-    if (sparklesEl) {
-      var sparkleIcons = ['🍓','✨','💖','⭐','🌸'];
-      for (var si = 0; si < 18; si++) {
-        var s = document.createElement('span');
-        s.className = 'welcome-sparkle';
-        s.textContent = sparkleIcons[Math.floor(Math.random() * sparkleIcons.length)];
-        s.style.left = Math.random() * 100 + '%';
-        s.style.top = Math.random() * 100 + '%';
-        s.style.animationDelay = Math.random() * 3 + 's';
-        s.style.fontSize = (14 + Math.random() * 22) + 'px';
-        sparklesEl.appendChild(s);
-      }
-    }
-
-    function dismiss() {
-      overlay.classList.add('fadeout');
-      localStorage.setItem('lotso_welcome_done', '1');
-      setTimeout(function() {
-        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-      }, 800);
-    }
-
-    overlay.addEventListener('click', dismiss);
-    // 4秒后自动消失
-    setTimeout(dismiss, 4000);
-  })();
+  // 欢迎覆盖层已由独立脚本块处理，保证不被主脚本错误阻塞
 
 })();
 </script>
