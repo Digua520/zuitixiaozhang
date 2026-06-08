@@ -1749,25 +1749,28 @@ function renderCards() {
   })();
 
   // ============ 聊天浮窗 ============
-  (function() {
+  setTimeout(function() {
     var fab = document.getElementById('chatFab');
     var win = document.getElementById('chatWindow');
     var close = document.getElementById('chatClose');
     var iframe = document.getElementById('chatIframe');
     var loaded = false;
+    if (!fab || !win) return;
 
     fab.addEventListener('click', function() {
-      if (!loaded) {
+      if (!loaded && iframe) {
         iframe.src = iframe.getAttribute('data-src');
         loaded = true;
       }
       win.classList.add('open');
     });
 
-    close.addEventListener('click', function() {
-      win.classList.remove('open');
-    });
-  })();
+    if (close) {
+      close.addEventListener('click', function() {
+        win.classList.remove('open');
+      });
+    }
+  }, 100);
 
 })();
 </script>
