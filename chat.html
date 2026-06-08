@@ -45,9 +45,10 @@ body {
 <script>
 new CozeWebSDK.WebChatClient({
   config: {
-    type: 'bot',
     bot_id: '7648684933334319130',
-    isIframe: false,
+  },
+  componentProps: {
+    title: '地瓜老大',
   },
   auth: {
     type: 'token',
@@ -55,27 +56,6 @@ new CozeWebSDK.WebChatClient({
     onRefreshToken: function () {
       return 'pat_u22RM6VaAyCWML2Jm3aR1E1jGJKWV6yL3STCqPLXM1wbTQ3JErR5VW7CVuuLd7WZ'
     }
-  },
-  userInfo: {
-    id: 'user',
-    url: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/coze-logo.png',
-    nickname: '嘴替小张',
-  },
-  ui: {
-    base: {
-      icon: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/chatsdk-logo.png',
-      layout: 'pc',
-      lang: 'zh-CN',
-      zIndex: 1000
-    },
-    asstBtn: { isNeed: true },
-    chatBot: {
-      title: '地瓜老大 · AI顾问',
-      uploadable: true,
-      width: 390,
-    },
-    header: { isShow: true, isNeedClose: true },
-    footer: { isShow: false }
   }
 });
 </script>
