@@ -8,6 +8,9 @@
 :root {
   --lotso-fur: #C06080;
   --lotso-fur-deep: #A04868;
+  --lotso-fur-light: #D4789B;
+  --text: #3E1A2E;
+  --vintage-cream: #FFF8EC;
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
@@ -22,16 +25,57 @@ body {
   display: flex; align-items: center; gap: 10px;
   flex-shrink: 0; z-index: 10;
 }
-.chat-header .back {
-  color: #fff; text-decoration: none; font-size: 1.2rem;
-  display: flex; align-items: center;
-}
+.chat-header .back { color: #fff; text-decoration: none; font-size: 1.2rem; }
 .chat-header h4 { font-size: 1rem; font-weight: 800; flex:1; }
-#chat-box {
-  flex: 1;
-  min-height: 0;
-  position: relative;
+
+.chat-body {
+  flex: 1; overflow-y: auto; padding: 16px;
+  display: flex; flex-direction: column; gap: 10px;
 }
+.chat-msg {
+  max-width: 85%; padding: 10px 14px;
+  border-radius: 16px; font-size: 0.88rem;
+  line-height: 1.65; word-break: break-word;
+  animation: msgIn 0.3s ease-out;
+  white-space: pre-wrap;
+}
+.chat-msg.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--lotso-fur), var(--lotso-fur-deep));
+  color: #fff; border-bottom-right-radius: 4px;
+}
+.chat-msg.bot {
+  align-self: flex-start;
+  background: #fff; border: 1.5px solid #F8E0EA;
+  border-bottom-left-radius: 4px; color: var(--text);
+}
+.chat-typing {
+  align-self: flex-start; display: flex; gap: 4px;
+  padding: 10px 14px; background: #fff; border-radius: 16px;
+  border: 1.5px solid #F8E0EA;
+}
+.chat-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--lotso-fur-light); animation: dotBounce 1.2s infinite; }
+.chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+.chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dotBounce { 0%,60%,100%{transform:translateY(0);opacity:0.4} 30%{transform:translateY(-6px);opacity:1} }
+@keyframes msgIn { from{opacity:0;transform:translateY(8px)} }
+
+.chat-footer {
+  display: flex; gap: 8px; padding: 12px 14px;
+  border-top: 1px solid #F8E0EA; background: #fff; flex-shrink: 0;
+}
+.chat-footer input {
+  flex: 1; border: 2px solid #F8E0EA;
+  border-radius: 22px; padding: 10px 16px;
+  font-size: 0.88rem; outline: none; font-family: inherit;
+}
+.chat-footer input:focus { border-color: var(--lotso-fur-light); }
+.chat-footer button {
+  width: 42px; height: 42px; border-radius: 50%; border: none;
+  background: linear-gradient(135deg, var(--lotso-fur), var(--lotso-fur-deep));
+  color: #fff; font-size: 1.1rem; cursor: pointer; flex-shrink: 0;
+}
+.chat-footer button:disabled { opacity: 0.5; }
 </style>
 </head>
 <body>
@@ -40,69 +84,128 @@ body {
   <h4>🧸 地瓜老大 · AI顾问</h4>
   <span style="font-size:0.75rem;opacity:0.7;">嘴替小张</span>
 </div>
-<div id="chat-box">
-  <div id="sdk-status" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:#A04868;font-size:0.9rem;flex-direction:column;">
-    <div style="font-size:2rem;margin-bottom:8px;">🧸</div>
-    <div>地瓜老大来了...</div>
-  </div>
+<div class="chat-body" id="chatBody">
+  <div class="chat-msg bot">我是地瓜老大，嘴替小张的AI商业顾问。商业问题、内容困惑、执行卡点——直接说。</div>
+</div>
+<div class="chat-footer">
+  <input type="text" id="chatInput" placeholder="输入问题..." maxlength="500">
+  <button id="chatSend">➤</button>
 </div>
 
 <script>
-var chatBox = document.getElementById('chat-box');
-var statusEl = document.getElementById('sdk-status');
-var sdkLoaded = false;
+(function() {
+  var TOKEN = 'cztei_lvRysALxVoEEMSIVVRMfv1KjQkCe3yhKV8sryYm3u1oY0hNtnV2Av0MR5liUJF4JW';
+  var BOT_ID = '7648684933334319130';
+  var API_URL = 'https://api.coze.cn/v3/chat';
+  var userId = localStorage.getItem('coze_uid');
+  if (!userId) { userId = 'u_' + Date.now() + '_' + Math.random().toString(36).substr(2,9); localStorage.setItem('coze_uid', userId); }
 
-setTimeout(function() {
-  if (!sdkLoaded) {
-    statusEl.innerHTML = '<p style="font-size:1.2rem;">⚠️</p><p>聊天组件加载超时</p><p style="font-size:0.8rem;opacity:0.7;">请检查网络或刷新重试</p>';
+  var bodyEl = document.getElementById('chatBody');
+  var input = document.getElementById('chatInput');
+  var sendBtn = document.getElementById('chatSend');
+  var isLoading = false;
+
+  function addMsg(text, role) {
+    var div = document.createElement('div');
+    div.className = 'chat-msg ' + role;
+    div.textContent = text;
+    bodyEl.appendChild(div);
+    bodyEl.scrollTop = bodyEl.scrollHeight;
+    return div;
   }
-}, 5000);
 
-function initChat() {
-  try {
-    sdkLoaded = true;
-    if (statusEl) statusEl.style.display = 'none';
-    new CozeWebSDK.WebChatClient({
-      config: {
-        type: 'bot',
-        bot_id: '7648684933334319130',
-        isIframe: false,
-      },
-      auth: {
-        type: 'token',
-        token: 'cztei_lvRysALxVoEEMSIVVRMfv1KjQkCe3yhKV8sryYm3u1oY0hNtnV2Av0MR5liUJF4JW',
-        onRefreshToken: function () {
-          return 'cztei_lvRysALxVoEEMSIVVRMfv1KjQkCe3yhKV8sryYm3u1oY0hNtnV2Av0MR5liUJF4JW'
-        }
-      },
-      userInfo: {
-        id: 'user',
-        url: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/coze-logo.png',
-        nickname: '嘴替小张',
-      },
-      ui: {
-        base: {
-          icon: 'https://lf-coze-web-cdn.coze.cn/obj/eden-cn/lm-lgvj/ljhwZthlaukjlkulzlp/coze/chatsdk-logo.png',
-          layout: 'pc',
-          lang: 'zh-CN',
-          zIndex: 1000
-        },
-        asstBtn: { isNeed: true },
-        chatBot: {
-          el: chatBox,
-          title: '地瓜老大 · AI顾问',
-          uploadable: true,
-          width: 390,
-        },
-        header: { isShow: false },
-        footer: { isShow: false }
+  function showTyping() {
+    var div = document.createElement('div');
+    div.className = 'chat-typing';
+    div.id = 'typingIndicator';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    bodyEl.appendChild(div);
+    bodyEl.scrollTop = bodyEl.scrollHeight;
+  }
+
+  function hideTyping() {
+    var el = document.getElementById('typingIndicator');
+    if (el) el.remove();
+  }
+
+  async function send() {
+    var text = input.value.trim();
+    if (!text || isLoading) return;
+    input.value = ''; isLoading = true; sendBtn.disabled = true;
+    addMsg(text, 'user'); showTyping();
+
+    try {
+      var resp = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN },
+        body: JSON.stringify({
+          bot_id: BOT_ID, user_id: userId, stream: true, auto_save_history: true,
+          additional_messages: [{ role: 'user', content: text, content_type: 'text' }]
+        })
+      });
+
+      if (!resp.ok) {
+        var errText = '';
+        try { var ed = await resp.json(); errText = ed.msg || ed.message || JSON.stringify(ed); } catch(e) { errText = await resp.text(); }
+        throw new Error(errText || 'HTTP ' + resp.status);
       }
-    });
-  } catch(e) {
-    if (statusEl) { statusEl.style.display = 'flex'; statusEl.innerHTML = '<p>聊天组件初始化失败</p><p style="font-size:0.8rem;opacity:0.7;">' + e.message + '</p>'; }
+
+      hideTyping();
+      var botMsg = addMsg('', 'bot');
+      var reader = resp.body.getReader();
+      var decoder = new TextDecoder('utf-8');
+      var buffer = '';
+      var rawChunks = [];
+
+      while (true) {
+        var r = await reader.read();
+        if (r.done) break;
+        var chunk = decoder.decode(r.value, { stream: true });
+        rawChunks.push(chunk);
+        buffer += chunk;
+        var lines = buffer.split('\n');
+        buffer = lines.pop() || '';
+
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (!line || line.indexOf('event:') === 0) continue;
+          if (line.indexOf('data:') !== 0) continue;
+
+          var jsonStr = line.substring(5).trim();
+          if (!jsonStr || jsonStr === '[DONE]') continue;
+
+          try {
+            var d = JSON.parse(jsonStr);
+            if (d.code && d.code !== 0) throw new Error(d.msg || ('Coze错误 code=' + d.code));
+            var content = d.content || (d.data && d.data.content) || (d.message && d.message.content) || (d.payload && d.payload.content) || '';
+            if (content) { botMsg.textContent += content; bodyEl.scrollTop = bodyEl.scrollHeight; }
+          } catch(e) {
+            if (e.message && e.message.indexOf('Coze错误') === 0) throw e;
+          }
+        }
+      }
+
+      if (!botMsg.textContent) {
+        var raw = rawChunks.join('');
+        try {
+          var rawJson = JSON.parse(raw);
+          if (rawJson.code && rawJson.code !== 0) throw new Error(rawJson.msg || ('Coze错误 code=' + rawJson.code));
+        } catch(e) { if (e.message && e.message.indexOf('Coze错误') === 0) throw e; }
+        botMsg.textContent = '(未收到回复 · 请刷新重试)';
+      }
+    } catch(e) {
+      hideTyping();
+      addMsg('出错：' + e.message, 'bot');
+    }
+    isLoading = false; sendBtn.disabled = false;
+    input.focus(); bodyEl.scrollTop = bodyEl.scrollHeight;
   }
-}
+
+  sendBtn.addEventListener('click', send);
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+  });
+})();
 </script>
-<script src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.19/libs/cn/index.js" onload="initChat()" onerror="if(statusEl){statusEl.style.display='flex';statusEl.innerHTML='<p>聊天组件加载失败</p><p style=font-size:0.8rem;opacity:0.7;>SDK CDN 不可达</p>'}"></script>
 </body>
 </html>
